@@ -40,4 +40,3 @@ exports.listen = (app, rooms) ->
     socket.on "join", info (channel, room, user) ->
       socket.join user.roomId
       channel.emit "join", user
-      console.log "JOINED", user.roomId

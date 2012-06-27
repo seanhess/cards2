@@ -4,6 +4,9 @@ sockets = require './sockets'
 {send} = require './lib/web/send'
 {Rooms} = require './store/rooms'
 
+coffeepot = require './lib/middleware/coffeepot'
+
+
 exports.createServer = ->
   app = express.createServer()
 
@@ -12,6 +15,7 @@ exports.createServer = ->
 
   app.configure ->
     app.use express.bodyParser()
+    app.use coffeepot()
     app.use express.static(__dirname+"/public")
 
   app.get '/rooms', (req, res) -> rooms.all send(res)
