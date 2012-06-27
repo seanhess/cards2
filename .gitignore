@@ -2,7 +2,9 @@
 nbproject
 manifest.mf
 build.xml
+.DS_Store
 
 .project
 .settings
 .idea/*
+node_modules
