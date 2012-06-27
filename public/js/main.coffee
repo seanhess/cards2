@@ -13,6 +13,9 @@ require.config
     underscore: 'lib/underscore'
     socketio: '/socket.io/socket.io'
 
+    # jquery plugins
+    draggable: 'lib/jquery.draggable'
+
   wrapJS:
 
     angular:

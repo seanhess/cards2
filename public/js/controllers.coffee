@@ -19,4 +19,10 @@ define ->
     $scope.onDrop = (files) ->
       console.log "WOOT", files, files[0]
 
+    $scope.newImage = ->
+      console.log "HI"
+      imageUrl = $scope.imageUrl
+      console.log "NEW IMAGE!", {imageUrl}
+      $scope.objects.push {imageUrl}
+
   window.RoomsCtrl = ->

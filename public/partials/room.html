@@ -1,7 +1,13 @@
 <div id="room" droppable drop="onDrop(files)">
-  <div class="object" ng-repeat="object in objects">
+  <div class="object" ng-repeat="object in objects" draggable>
     <img ng-src="{{object.imageUrl}}"/>
   </div>
+
+  <form class="debugAddUrl">
+    <input ng-model="imageUrl">
+    <button ng-click="newImage()">New Image</button>
+  </form>
 </div>
 
 
+<!-- http://magiccards.info/scans/en/pd3/3.jpg -->

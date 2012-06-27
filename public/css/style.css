@@ -45,3 +45,12 @@ html, body, div {
 #room.dragover {
   background-color: #EEE;
 }
+
+#room form.debugAddUrl {
+  position: absolute;
+  display: block;
+}
+
+#room .object {
+  position: absolute;
+}
