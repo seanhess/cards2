@@ -1,8 +1,11 @@
 # Filters
 
-interpolate = (version) ->
-  (text) ->
-    return String(text).replace(/\%VERSION\%/mg, version)
+define (require) ->
+  angular = require 'wrap!angular'
 
-angular.module('myApp.filters', []).
-  filter('interpolate', ['version', interpolate])
+  interpolate = (version) ->
+    (text) ->
+      return String(text).replace(/\%VERSION\%/mg, version)
+
+  angular.module('myApp.filters', []).
+    filter('interpolate', ['version', interpolate])

@@ -14,25 +14,27 @@
 
   <div>Angular seed app: v<span app-version></span></div>
 
-  <script src="lib/angular/angular.js"></script>
-  <script src="js/app.coffee"></script>
-  <script src="js/services.coffee"></script>
-  <script src="js/controllers.coffee"></script>
-  <script src="js/filters.coffee"></script>
-  <script src="js/directives.coffee"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect('http://localhost');
+  <script data-main="js/main.js" src="lib/requirejs/require.js"></script>
 
-    function dump(data) { console.log(data) }
-    // events
-    socket.on('save', dump)
-    socket.on('join', dump)
-    socket.on('remove', dump)
+  <!-- <script src="lib/angular/angular.js"></script>-->
+  <!-- <script src="js/app.coffee"></script>-->
+  <!-- <script src="js/services.coffee"></script>-->
+  <!-- <script src="js/controllers.coffee"></script>-->
+  <!-- <script src="js/filters.coffee"></script>-->
+  <!-- <script src="js/directives.coffee"></script>-->
+  <!-- <script src="/socket.io/socket.io.js"></script>-->
+  <!-- <script>-->
+  <!--   var socket = io.connect('http://localhost');-->
 
-    // join
-    socket.emit('join', {roomId: "henry"})
-  </script>
+  <!--   function dump(data) { console.log(data) }-->
+  <!--   // events-->
+  <!--   socket.on('save', dump)-->
+  <!--   socket.on('join', dump)-->
+  <!--   socket.on('remove', dump)-->
+
+  <!--   // join-->
+  <!--   socket.emit('join', {roomId: "henry"})-->
+  <!-- </script>-->
 
 </body>
 </html>

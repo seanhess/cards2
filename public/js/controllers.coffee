@@ -1,6 +1,7 @@
 
-window.MyCtrl1 = ->
-MyCtrl1.$inject = []
+define ->
+  window.MyCtrl1 = ->
+  MyCtrl1.$inject = []
 
-window.MyCtrl2 = ->
-MyCtrl2.$inject = []
+  window.MyCtrl2 = ->
+  MyCtrl2.$inject = []
