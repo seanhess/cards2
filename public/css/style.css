@@ -28,3 +28,20 @@
   content: "";
   padding: 0;
 }
+
+
+
+
+html, body, div {
+  padding: 0px;
+  margin: 0px;
+}
+
+
+#room {
+  height: 5000px;
+}
+
+#room.dragover {
+  background-color: #EEE;
+}

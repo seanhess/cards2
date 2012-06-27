@@ -27,7 +27,8 @@ require.config
     socketio:
       attach: 'io'
 
-require ['js/app'], (app) ->
+# require jquery globally
+require ['jquery', 'js/app', 'jquery'], ($, app) ->
   console.log "DONE"
 
 

@@ -8,9 +8,10 @@ define (require) ->
   require 'js/controllers'
 
   routes = ($routeProvider) ->
-    $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: MyCtrl1})
-    $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: MyCtrl2})
-    $routeProvider.otherwise({redirectTo: '/view1'})
+    $routeProvider.when '/rooms/', {templateUrl: 'partials/rooms.html', controller: RoomsCtrl}
+    $routeProvider.when '/rooms/:id', {templateUrl: 'partials/room.html', controller: RoomCtrl}
+
+    $routeProvider.otherwise({redirectTo: '/rooms'})
 
   # Declare app level module which depends on filters, and services
   angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']).

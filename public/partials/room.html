@@ -1,1 +1,7 @@
-<h1>Room</h1>
+<div id="room" droppable drop="onDrop(files)">
+  <div class="object" ng-repeat="object in objects">
+    <img ng-src="{{object.imageUrl}}"/>
+  </div>
+</div>
+
+
