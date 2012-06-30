@@ -40,3 +40,7 @@ exports.listen = (app, rooms) ->
     socket.on "join", info (channel, room, user) ->
       socket.join user.roomId
       channel.emit "join", user
+
+      room.all (err, objects) ->
+        objects.forEach (obj) ->
+          socket.emit 'save', obj

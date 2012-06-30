@@ -4,7 +4,5 @@
 
 
 # Todo
-* object movement syncing 
-* cleanup
+* all existing objects on load
 
-ASK: [ ] event binding on services?

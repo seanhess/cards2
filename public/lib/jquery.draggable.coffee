@@ -25,6 +25,7 @@ jQuery.fn.draggable = (options) ->
 
     startPosition = el.position()
 
+    el.addClass "dragging"
     el.trigger "dragstart", e
 
     if (e.targetTouches)
@@ -74,6 +75,7 @@ jQuery.fn.draggable = (options) ->
 
   stop = ->
     el.trigger "dragend"
+    el.removeClass "dragging"
 
     dragtime = new Date().getTime() - startTime
 

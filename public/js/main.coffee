@@ -3,11 +3,8 @@ require.config
   baseUrl: '../'
 
   shim:
-    underscore:
-      exports: '_'
-
-    angular:
-      exports: 'angular'
+    underscore: exports: '_'
+    angular: exports: 'angular'
 
   paths:
     # requirejs plugins
@@ -24,14 +21,6 @@ require.config
 
     # jquery plugins
     draggable: 'lib/jquery.draggable'
-
-  wrapJS:
-
-    modernizr:
-      attach: 'Modernizr'
-
-    socketio:
-      attach: 'io'
 
 # require jquery globally
 require ['jquery', 'js/app', 'jquery'], ($, app) ->
