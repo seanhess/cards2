@@ -54,3 +54,8 @@ html, body, div {
 #room .object {
   position: absolute;
 }
+
+#room .users {
+  float: right;
+  background-color: #F00;
+}

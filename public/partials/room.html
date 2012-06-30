@@ -1,5 +1,7 @@
 <div id="room" droppable drop="onDrop(files)">
-  <div class="object" ng-repeat="object in objects" draggable>
+
+  <!-- I MUST bind to the position! -->
+  <div class="object" ng-repeat="object in room.objects" draggable dragMove="onDragMove(object, dx, dy)" dragEnd="onDragEnd(object)" ng-style="object.position">
     <img ng-src="{{object.imageUrl}}"/>
   </div>
 
@@ -7,6 +9,13 @@
     <input ng-model="imageUrl">
     <button ng-click="newImage()">New Image</button>
   </form>
+
+  <div class="users">
+    <h3>Users</h3>
+    <div class="user" ng-repeat="user in room.users">
+      {{user.name}}
+    </div>
+  </div>
 </div>
 
 

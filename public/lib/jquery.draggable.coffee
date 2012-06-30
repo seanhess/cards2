@@ -1,12 +1,16 @@
 
-jQuery.fn.draggable = ->
+jQuery.fn.draggable = (options) ->
+  options ?= {}
+  options.shouldMove ?= false
+
   element = el = this
   startDragX = startDragY = 0
   startPosition = null
   startTime = null
 
-  # requires position absolute
-  element.css position: 'absolute'
+  if options.shouldMove
+    # requires position absolute
+    element.css position: 'absolute'
 
   enable = el.draggableEnable = ->
     el.bind "mousedown touchstart", start
@@ -58,25 +62,23 @@ jQuery.fn.draggable = ->
 
 
     # should I do this automatically?
-    startPosition.left += changeX
-    startPosition.top += changeY
-    el.css startPosition
+    if options.shouldMove
+      startPosition.left += changeX
+      startPosition.top += changeY
+      el.css startPosition
 
-    el.trigger("dragmove", changeX, changeY)
+    el.trigger "dragmove", {dx:changeX, dy:changeY}
 
     startDragX = x
     startDragY = y
 
   stop = ->
-    console.log "STOP"
-    # dropTarget = Droppable._droppableOnDragEnd(this, this.x, this.y, this.width, this.height)
-
-    # el.trigger "dragend", dropTarget
+    el.trigger "dragend"
 
     dragtime = new Date().getTime() - startTime
 
     if (dragtime < 130)
-      trigger("dragclick")
+      el.trigger "dragclick"
 
     $(window)
       .unbind("mousemove touchmove", move)

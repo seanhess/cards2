@@ -1,7 +1,7 @@
 
 
 define (require) ->
-  angular = require 'wrap!angular'
+  angular = require 'angular'
   require 'js/directives'
   require 'js/filters'
   require 'js/services'

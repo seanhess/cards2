@@ -1,16 +1,28 @@
 # Directives
 
 define (require) ->
-  angular = require 'wrap!angular'
+  angular = require 'angular'
   require 'draggable'
 
   appVersion = (version) ->
     (scope, elm, attrs) ->
       elm.text(version)
 
-  draggable = () ->
+  draggable = ($parse) ->
     (scope, element, atts) ->
+      onMove = $parse atts.dragmove
+      onEnd = $parse atts.dragend
+
       element.draggable()
+
+      element.bind "dragmove", (e, {dx, dy}) ->
+        scope.$apply ->
+          onMove scope, {dx, dy, element}
+
+      element.bind "dragend", ->
+        position = element.position()
+        scope.$apply ->
+          onEnd scope, {position}
 
   droppable = ($parse) ->
     (scope, element, atts) ->
@@ -43,7 +55,6 @@ define (require) ->
       dom.addEventListener "dragenter", onDragEnter, false
       dom.addEventListener "dragover", onOver, false
       dom.addEventListener "drop", onDrop, false
-
 
   angular.module('myApp.directives', [])
     .directive('appVersion', appVersion)

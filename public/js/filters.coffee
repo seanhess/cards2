@@ -1,7 +1,7 @@
 # Filters
 
 define (require) ->
-  angular = require 'wrap!angular'
+  angular = require 'angular'
 
   interpolate = (version) ->
     (text) ->

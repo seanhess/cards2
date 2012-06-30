@@ -6,7 +6,7 @@ exports.listen = (app, rooms) ->
 
   io.configure ->
     # io.set 'store', store
-    io.set 'log level', 0
+    # io.set 'log level', 0
   
   # simple CRUD for objects, based on channel
   io.sockets.on 'connection', (socket) ->
