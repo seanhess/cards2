@@ -1,6 +1,8 @@
 
 {values} = require 'underscore'
 
+# TODO change this to a real persistent data store later
+
 exports.Rooms = (data) ->
 
   data ?= {}

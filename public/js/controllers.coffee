@@ -21,10 +21,11 @@ define ->
       room.save object
 
     ## DROP FILES ##############################################
-    # # send back the File object?
-    # # how am I even going to store this stuff?
-    # $scope.onDrop = (files) ->
-    #   console.log "WOOT", files, files[0]
+    $scope.onDropUrl = (url) ->
+      object =
+        imageUrl: url
+        position: {left: 0, top: 0}
+      room.save object
 
 
     ## DRAG A CARD #############################################

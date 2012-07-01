@@ -1,13 +1,21 @@
-<div id="room" droppable drop="onDrop(files)">
+<div id="room" droppable dropUrl="onDropUrl(url)">
 
   <!-- I MUST bind to the position! -->
   <div class="object" ng-repeat="object in room.objects" draggable dragMove="onDragMove(object, dx, dy)" dragEnd="onDragEnd(object)" ng-style="object.position">
     <img ng-src="{{object.imageUrl}}"/>
   </div>
 
-  <form class="debugAddUrl">
-    <input ng-model="imageUrl">
-    <button ng-click="newImage()">New Image</button>
+  <!-- accept JSON urls? images with headers? -->
+  <!-- figure out how to upload? -->
+  <form class="debug">
+    <div>
+      <input ng-model="imageUrl">
+      <button ng-click="newImage()">New Image</button>
+    </div>
+    <div>
+      <input ng-model="deckUrl">
+      <button ng-click="newDeck()">New Image</button>
+    </div>
   </form>
 
   <div class="users">
