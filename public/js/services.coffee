@@ -26,6 +26,7 @@ define (require) ->
 
       save = (object) ->
         existing = room.objectsById[object._id]
+        console.log "SAVE!", object, existing?
         if not existing?
           existing = room.objectsById[object._id] = object
           room.objects.push object
@@ -57,15 +58,15 @@ define (require) ->
         objectsById: {}
         save: (object) ->
           emit 'save', object
-          save object
+          # save object
 
         remove: (object) ->
           emit 'remove', object
-          remove object
+          # remove object
 
         join: (user) ->
           emit 'join', user
-          join user
+          # join user
 
   # Demonstrate how to register services
   # In this case it is a simple value service.

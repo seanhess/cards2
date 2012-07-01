@@ -25,17 +25,22 @@ exports.listen = (app, rooms) ->
         roomId = data.roomId
         if not roomId?
           return dump new Error "roomId is required"
-        channel = socket.broadcast.to roomId
+
+        # we want to broadcast to EVERYONE in the room, including ourselves
+        # channel = socket. roomId
+        channel = io.sockets.in roomId
+
         room = rooms.room roomId
         cb channel, room, data
 
-    socket.on "save", info (channel, room, widget) ->
-      channel.emit "save", widget
-      room.save widget, dump
+    socket.on "save", info (channel, room, object) ->
+      room.save object, (err, object) ->
+        channel.emit "save", object
 
-    socket.on "remove", info (channel, room, widget) ->
-      channel.emit "remove", widget
-      room.remove widget, dump
+    socket.on "remove", info (channel, room, object) ->
+      room.remove object, (err, object) ->
+        channel.emit "remove", object
+        
 
     socket.on "join", info (channel, room, user) ->
       socket.join user.roomId
