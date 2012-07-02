@@ -32,18 +32,22 @@ define (require) ->
       onDrop = (e) ->
         onDragExit e
 
-        files = e.dataTransfer?.files ? []
+        files = e.dataTransfer.files ? []
         text = e.dataTransfer.getData "Text"
 
         if text? then dropUrl scope, {url: text}
 
         # I don't know what to do with files!
-
-        # files.forEach (file) ->
+        # FileReader doesn't work in safari!! Oh well, URLs work, and I'd rather do that anyway :)
+        # Array.prototype.forEach.call files, (file) ->
         #   reader = new FileReader()
         #   reader.onload = (e) ->
         #     dropFile scope, {file: e.target.result}
         #   reader.readAsDataURL file
+        #   reader.readAsDataURL file
+        #   reader.readAsText file
+        #   reader.readAsBinaryString file
+        #   reader.readAsArrayBuffer file
 
         # e.dataTransfer.types.forEach (type) ->
         #   console.log type, e.dataTransfer.getData(type)

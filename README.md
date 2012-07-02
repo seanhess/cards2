@@ -7,12 +7,14 @@
   http://html5demos.com/drag-anything AWESOME
   - drag and drop DECKs? (ooh, LINKS are what get dragged if it is a link. that's AWESOME.). I could totally drag full things
 
+CARD BACKS? can I just specify a deck for the whole room/board? (Use whataver deck is on the board already)
+
 * users: current state
 * users: leave
 
 * drag and drop json files?
 * decks
-  * add a deck
+  * add a deck (json file? json url?)
   * flip cards
   * draw a card
   * shuffle

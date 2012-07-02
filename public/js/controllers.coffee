@@ -4,8 +4,9 @@
 # TODO notify other clients
 # TODO drag move image
 
-define ->
-  window.RoomCtrl = ($scope, $routeParams, Room) ->
+define (require) ->
+  angular = require 'angular'
+  RoomCtrl = ($scope, $routeParams, Room) ->
 
     # make the room!
     roomId = $routeParams.id
@@ -39,7 +40,8 @@ define ->
       object.position.top += dy
 
 
+  RoomsCtrl = ->
+
+  return {RoomCtrl, RoomsCtrl}
 
 
-
-  window.RoomsCtrl = ->

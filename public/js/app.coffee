@@ -3,17 +3,18 @@
 define (require) ->
   $ = require 'jquery'
   angular = require 'angular'
-  require 'js/directives'
-  require 'js/filters'
-  require 'js/services'
-  require 'js/controllers'
+  directives = require 'js/directives'
+  filters = require 'js/filters'
+  services = require 'js/services'
+  {RoomsCtrl, RoomCtrl} = require 'js/controllers'
 
   routes = ($routeProvider) ->
     $routeProvider.when '/rooms/', {templateUrl: 'partials/rooms.html', controller: RoomsCtrl}
     $routeProvider.when '/rooms/:id', {templateUrl: 'partials/room.html', controller: RoomCtrl}
+    $routeProvider.when '/stuff', {templateUrl: 'partials/stuff.html'}
 
     $routeProvider.otherwise({redirectTo: '/rooms'})
 
   # Declare app level module which depends on filters, and services
-  angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives']).
+  angular.module('cards', ['cards.filters', 'cards.services', 'cards.directives']).
     config ['$routeProvider', routes]

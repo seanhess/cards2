@@ -24,6 +24,19 @@ exports.createServer = ->
     room = rooms.room req.param 'id'
     room.all send(res)
 
+
+  app.get '/debug/decks/example', (req, res) ->
+    res.send
+      objects: [
+        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
+      ]
+
   return app
 
 

@@ -7,5 +7,5 @@ define (require) ->
     (text) ->
       return String(text).replace(/\%VERSION\%/mg, version)
 
-  angular.module('myApp.filters', []).
+  angular.module('cards.filters', []).
     filter('interpolate', interpolate)

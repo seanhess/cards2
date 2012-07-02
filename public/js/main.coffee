@@ -4,7 +4,9 @@ require.config
 
   shim:
     underscore: exports: '_'
-    angular: exports: 'angular'
+    angular:
+      exports: 'angular'
+      deps: ['jquery']
     jquery: exports: 'jQuery'
 
   paths:
@@ -24,7 +26,7 @@ require.config
     draggable: 'lib/jquery.draggable'
 
 # require jquery globally. keep it here to make sure it loads before angular
-require ['jquery', 'js/app'], (app) ->
+require ['js/app'], (app) ->
   console.log "DONE"
 
 

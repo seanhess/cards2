@@ -9,7 +9,7 @@ define (require) ->
     (scope, elm, attrs) ->
       elm.text(version)
 
-  angular.module('myApp.directives', [])
+  angular.module('cards.directives', [])
     .directive('appVersion', appVersion)
     .directive('droppable', droppable)
     .directive('draggable', draggable)
