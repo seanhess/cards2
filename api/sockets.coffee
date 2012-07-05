@@ -1,4 +1,6 @@
 socketio = require "socket.io"
+{series, curry} = require "fjs"
+{downloadUrl} = require "./services/remote"
 
 exports.listen = (app, rooms) ->
   
@@ -33,14 +35,21 @@ exports.listen = (app, rooms) ->
         room = rooms.room roomId
         cb channel, room, data
 
-    socket.on "save", info (channel, room, object) ->
+
+    saveObject = curry (channel, room, object) ->
       room.save object, (err, object) ->
         channel.emit "save", object
+
+    socket.on "save", info(saveObject)
 
     socket.on "remove", info (channel, room, object) ->
       room.remove object, (err, object) ->
         channel.emit "remove", object
-        
+
+    socket.on "saveUrl", info (channel, room, object) ->
+      url = object.url
+      downloadUrl url, (err, object) ->
+        saveObject channel, room, object
 
     socket.on "join", info (channel, room, user) ->
       socket.join user.roomId

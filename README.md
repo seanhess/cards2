@@ -2,24 +2,35 @@
 
 
 # Todo
-* drag and drop images
-  - in theory should be able to drop between windows: get url: myDataTransfer.getData("Text")
-  http://html5demos.com/drag-anything AWESOME
-  - drag and drop DECKs? (ooh, LINKS are what get dragged if it is a link. that's AWESOME.). I could totally drag full things
-
-CARD BACKS? can I just specify a deck for the whole room/board? (Use whataver deck is on the board already)
+√ drag and drop images
 
 * users: current state
 * users: leave
 
-* drag and drop json files?
+√ drag and drop json files?
 * decks
-  * add a deck (json file? json url?)
+  √ add a deck (json file? json url?)
+  √ render the card back, with some borders
+  * draw a card (what does it do?)
+      double-click: takes a card out and adds it to the board (should be just a save card) (+ update the deck?, that's ... a lot of crap to update) you can choose to only render the 1st item in a deck, no?
+
+
+DECKS ARE AN IMAGE (no cards in the data)
+  = each time you draw a card, you have to re-save the whole deck!
+  = UNLESS you don't send down all the deck details. Draw a card can be a request. Gives you back the drawn card and updates the deck, but doesn't need to send down an UPDATE to the deck, really, except for the deck size.
+
+DECKS ARE A CARD STACK
+  = draw a card is easy: just move it
+  = move is more complicated. you have to move ALL of them
+      
   * flip cards
-  * draw a card
   * shuffle
 
-
+# THOUGHTS
+How to render a deck? 
+  - lay out all the cards
+  - have a "deck" image
+  - repeat the card back depending on how many cards there are?
 
 # QUESTIONS
 * how can I get my socket service to work without passing the $scope? seems lame to use $rootScope, or is it not that bad?

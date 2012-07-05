@@ -25,8 +25,24 @@ require.config
     # jquery plugins
     draggable: 'lib/jquery.draggable'
 
-# require jquery globally. keep it here to make sure it loads before angular
-require ['js/app'], (app) ->
-  console.log "DONE"
+define [], (require) ->
+
+  $ = require 'jquery'
+  angular = require 'angular'
+  directives = require 'js/directives'
+  filters = require 'js/filters'
+  services = require 'js/services'
+  {RoomsCtrl, RoomCtrl} = require 'js/controllers'
+
+  routes = ($routeProvider) ->
+    $routeProvider.when '/rooms/', {templateUrl: 'partials/rooms.html', controller: RoomsCtrl}
+    $routeProvider.when '/rooms/:id', {templateUrl: 'partials/room.html', controller: RoomCtrl}
+    $routeProvider.when '/stuff', {templateUrl: 'partials/stuff.html'}
+
+    $routeProvider.otherwise({redirectTo: '/rooms'})
+
+  # Declare app level module which depends on filters, and services
+  angular.module('cards', ['cards.filters', 'cards.services', 'cards.directives']).
+    config ['$routeProvider', routes]
 
 

@@ -21,6 +21,7 @@ exports.Room = Room = (data) ->
     cb null, object
 
   save: (object, cb) ->
+    console.log "SAVE", object
     object._id ?= Math.random().toString(36).replace("0.", "")
     data[object._id] = object
     cb null, object

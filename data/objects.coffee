@@ -9,6 +9,7 @@ exports.Position = class Position
 
 exports.Object = class Object
   _id: String
+  url: String
   imageUrl: String
   position: Position
   # any object can have things ON TOP OF IT
@@ -16,16 +17,14 @@ exports.Object = class Object
   objects: [Object]
 
 exports.Card = class Card extends Object
-  backImageUrl: String
 
 exports.Deck = class Deck = extends Object
   cards: [Object]
+  backImageUrl: String
 
 
 # TODO validate?
 # exports.validate = validate = (schema, object) ->
-
-
 
 
 ###

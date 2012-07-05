@@ -16,18 +16,9 @@ define (require) ->
     $scope.room = room
 
     $scope.newImage = ->
-      object =
-        imageUrl: $scope.imageUrl
-        position: {left: 0, top: 0}
-      room.save object
 
     ## DROP FILES ##############################################
-    $scope.onDropUrl = (url) ->
-      object =
-        imageUrl: url
-        position: {left: 0, top: 0}
-      room.save object
-
+    $scope.onDropUrl = room.saveUrl
 
     ## DRAG A CARD #############################################
     # # I need to call it with: object, changeX, changeY

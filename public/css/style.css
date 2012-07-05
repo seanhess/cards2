@@ -62,6 +62,10 @@ html, body, div {
   -webkit-transition: none;
 }
 
+#room .object.deck {
+  border: solid 2px #FF0;
+}
+
 #room .users {
   float: right;
   background-color: #F00;
