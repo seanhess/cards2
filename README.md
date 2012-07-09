@@ -1,6 +1,18 @@
 # Cards2
 
 
+# Feature a day
+    [ ] Draw a card
+    [ ] Tap cards
+    [ ] Flip cards over
+    [ ] Put cards in your Hand
+    [ ] My Collection - a grid-based place to put things
+    [ ] Tokens
+    [ ] Smaller, standard sized cards
+    [ ] Reshuffle
+    [ ] Put cards on deck
+    [ ] Put cards in Discard pile
+
 # Todo
 √ drag and drop images
 

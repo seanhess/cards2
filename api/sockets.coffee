@@ -48,7 +48,9 @@ exports.listen = (app, rooms) ->
 
     socket.on "saveUrl", info (channel, room, object) ->
       url = object.url
+      if not url? then return dump "saveUrl: url missing"
       downloadUrl url, (err, object) ->
+        if err? then return dump "Could not fetch: '#{url}'"
         saveObject channel, room, object
 
     socket.on "join", info (channel, room, user) ->

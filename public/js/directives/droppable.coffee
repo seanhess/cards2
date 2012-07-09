@@ -32,10 +32,15 @@ define (require) ->
       onDrop = (e) ->
         onDragExit e
 
+        ## DRAG FILE
         files = e.dataTransfer.files ? []
-        text = e.dataTransfer.getData "Text"
 
-        if text? then dropUrl scope, {url: text}
+        ## DRAG URL
+        # mac chrome canary: text/html, text-uri-list
+        # safari: text, text-uri-list
+        url = e.dataTransfer.getData "text/uri-list"
+        if url? then dropUrl scope, {url}
+
 
         # I don't know what to do with files!
         # FileReader doesn't work in safari!! Oh well, URLs work, and I'd rather do that anyway :)
