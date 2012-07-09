@@ -3,15 +3,19 @@
 
 # Feature a day
     [ ] Draw a card
+        - don't save all the cards when you drag a deck, just the id and position? support updates that way
     [ ] Tap cards
     [ ] Flip cards over
     [ ] Put cards in your Hand
     [ ] My Collection - a grid-based place to put things
+        [ ] persistent data storage
+        [ ] user accounts?
     [ ] Tokens
     [ ] Smaller, standard sized cards
     [ ] Reshuffle
     [ ] Put cards on deck
     [ ] Put cards in Discard pile
+  
 
 # Todo
 √ drag and drop images

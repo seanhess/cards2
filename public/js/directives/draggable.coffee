@@ -7,6 +7,7 @@ define (require) ->
     (scope, element, atts) ->
       onMove = $parse atts.dragmove
       onEnd = $parse atts.dragend
+      onClick = $parse atts.dragclick
 
       element.draggable()
 
@@ -18,3 +19,8 @@ define (require) ->
         position = element.position()
         scope.$apply ->
           onEnd scope, {position}
+
+      element.bind "dragclick", ->
+        scope.$apply ->
+          onClick scope
+

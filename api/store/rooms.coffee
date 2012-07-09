@@ -1,5 +1,5 @@
 
-{values} = require 'underscore'
+{values, extend} = require 'underscore'
 
 # TODO change this to a real persistent data store later
 
@@ -20,10 +20,11 @@ exports.Room = Room = (data) ->
     delete data[object._id]
     cb null, object
 
+  # save/update
   save: (object, cb) ->
-    console.log "SAVE", object
     object._id ?= Math.random().toString(36).replace("0.", "")
-    data[object._id] = object
+    existing = data[object._id] ? {}
+    data[object._id] = extend existing, object
     cb null, object
 
   get: (object, cb) ->

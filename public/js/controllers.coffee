@@ -23,6 +23,7 @@ define (require) ->
     ## DRAG A CARD #############################################
     # # I need to call it with: object, changeX, changeY
     $scope.onDragEnd = (object) ->
+      console.log "DRAG END #{object._id}"
       room.save object
 
     # # local move modification
@@ -30,6 +31,11 @@ define (require) ->
       object.position.left += dx
       object.position.top += dy
 
+
+    ## DRAW CARD ###############################################
+    $scope.onDragClick = (object) ->
+      if object._type is "deck"
+        room.draw object
 
   RoomsCtrl = ->
 

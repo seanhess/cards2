@@ -2,11 +2,12 @@
 jQuery.fn.draggable = (options) ->
   options ?= {}
   options.shouldMove ?= false
+  options.dragClickTolerance ?= 10
 
   element = el = this
   startDragX = startDragY = 0
   startPosition = null
-  startTime = null
+  position = null
 
   if options.shouldMove
     # requires position absolute
@@ -24,6 +25,7 @@ jQuery.fn.draggable = (options) ->
     e.preventDefault()
 
     startPosition = el.position()
+    position = {left: startPosition.left, top: startPosition.top}
 
     el.addClass "dragging"
     el.trigger "dragstart", e
@@ -45,8 +47,6 @@ jQuery.fn.draggable = (options) ->
         .mouseup(stop)
         .mouseleave(stop)
 
-    startTime = new Date().getTime()
-
   move = (e) ->
     if e.originalEvent then e = e.originalEvent
     x = y = changeX = changeY = null
@@ -63,24 +63,27 @@ jQuery.fn.draggable = (options) ->
 
 
     # should I do this automatically?
+    position.left += changeX
+    position.top += changeY
+
     if options.shouldMove
-      startPosition.left += changeX
-      startPosition.top += changeY
-      el.css startPosition
+      el.css position
 
     el.trigger "dragmove", {dx:changeX, dy:changeY}
 
     startDragX = x
     startDragY = y
 
+  squareDistance = ->
+    Math.abs(startPosition.left - position.left) + Math.abs(startPosition.top - position.top)
+
   stop = ->
-    el.trigger "dragend"
     el.removeClass "dragging"
 
-    dragtime = new Date().getTime() - startTime
-
-    if (dragtime < 130)
+    if squareDistance() < options.dragClickTolerance
       el.trigger "dragclick"
+    else
+      el.trigger "dragend"
 
     $(window)
       .unbind("mousemove touchmove", move)

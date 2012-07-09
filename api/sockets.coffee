@@ -60,3 +60,4 @@ exports.listen = (app, rooms) ->
       room.all (err, objects) ->
         objects.forEach (obj) ->
           socket.emit 'save', obj
+

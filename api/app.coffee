@@ -60,7 +60,7 @@ exports.createServer = ->
 
   app.get '/debug/decks/example', (req, res) ->
     res.send
-      backImageUrl: "http://www.magicspoiler.com/wp-content/uploads/2012/04/MTG-Card-Back.jpg"
+      backImageUrl: "http://upload.wikimedia.org/wikipedia/en/a/aa/Magic_the_gathering-card_back.jpg"
       _type: "deck"
       objects: [
         {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}

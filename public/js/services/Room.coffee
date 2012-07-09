@@ -1,7 +1,7 @@
 
 define (require) ->
   angular = require 'angular'
-  {find, extend} = require 'underscore'
+  {find, clone, extend} = require 'underscore'
   {curry} = require 'fjs'
   $ = require 'jquery'
   socketio = require 'socketio'
@@ -42,21 +42,33 @@ define (require) ->
           $scope.$apply ->
             cb args...
 
+      getObject = (id) ->
+        room.objects.filter(isId(id))[0]
 
       sendRemove = (object) ->
         emit 'remove', {_id: object._id}
 
       sendJoin = (user) ->
         emit 'join', user
-        # join user
 
       sendSave = (object) ->
+        # we don't want to update the objects of an object
+        object = clone object
+        delete object.objects
         emit 'save', object
-        # save object
 
       sendSaveUrl = (url) ->
         emit 'saveUrl', {url}
 
+      # draw a card from the deck and return it
+      draw = (deck) ->
+        console.log "DECK", deck._id
+        card = deck.objects.shift()
+        if card?
+          card.position =
+            left: deck.position.left + 200
+            top: deck.position.top
+          sendSave card
 
       # socket. must call $scope.apply. Is there a better way to do this?
       socket.on 'save', apply(save)
@@ -74,4 +86,5 @@ define (require) ->
         join: sendJoin
         # lets you specify a url, and we create an object out of it
         saveUrl: sendSaveUrl
+        draw: draw
 
