@@ -3,8 +3,16 @@
 
 # Feature a day
     [ ] Draw a card
-        [ ] show deck height / emptiness
+        [x] show deck height / emptiness (just use a number)
         [ ] card draw should remove object from all clients and server
+
+    [ ] Drag should put the card on top
+        [ ] I don't want a context menu. Drag puts it on TOP, so you can order things that way. 
+        --- but you more often want to put something BELOW something else in magic. 
+        --- a single tap will put it on top!
+
+    [ ] Better drag (should pick up earlier. How to work with tap as well?)
+
     [ ] Put cards in your Hand
         [ ] draw card to hand instead of showing it
     [ ] My Collection - a grid-based place to put things
@@ -18,6 +26,16 @@
 
     [ ] Tap cards
     [ ] Flip cards over
+
+
+
+
+    [ ] Context Menu! (there are too many actions to perform, like move back)
+
+    [ ] Zoom? How are you going to fit everything?
+      [ ] focus card (closer look)
+      [ ] scrolling works great
+      [ ] zoom gestures?
   
 
 # Todo

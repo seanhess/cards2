@@ -18,25 +18,37 @@ html, body, div
     transition: all 300ms ease;
     -webkit-transition: all 300ms ease;
 
-    &.drag
-      box-shadow: 2px 2px 4px #666;
-      transform: scale(1.05) rotate(2deg)
+    &.card
+      img
+        width: 160px
+        border-radius: 7px
 
     &.dragging
       transition: none;
       -webkit-transition: none;
+      transform: scale(1.05) rotate(2deg)
+      img
+        // border: solid 2px #666
+        box-shadow: 2px 2px 4px #666;
 
     &.deck
 
       img
         position: absolute;
+        display: block;
         background: #eee;
-        border: 1px solid #FFF;
-        border-radius: 20px;
-        box-shadow: 2px 2px 4px #DDD;  
+        // border: 1px solid #FFF;
+        box-shadow: 2px 2px 4px #777;  
 
-      > div
-        font-size: 85px;  
+      div.num
+        font-size: 30px
+        position: absolute
+        background-color: #000
+        color: #FFF
+        left: 2px;
+        top: 2px;
+        border-radius: 5px
+        padding: 5px
 
   .users
     float: right;

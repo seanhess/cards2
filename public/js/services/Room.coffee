@@ -1,7 +1,7 @@
 
 define (require) ->
   angular = require 'angular'
-  {find, clone, extend} = require 'underscore'
+  {find, clone, extend, max} = require 'underscore'
   {curry} = require 'fjs'
   $ = require 'jquery'
   socketio = require 'socketio'
@@ -70,6 +70,14 @@ define (require) ->
             top: deck.position.top
           sendSave card
 
+      # tells you the next highest index in the room
+      currentIndex = null
+      nextIndex = (index) ->
+        if not currentIndex?
+          currentIndex = max room.objects, (obj) -> obj.index
+          currentIndex or= 0
+        return ++currentIndex
+
       # socket. must call $scope.apply. Is there a better way to do this?
       socket.on 'save', apply(save)
       socket.on 'remove', apply(remove)
@@ -87,4 +95,5 @@ define (require) ->
         # lets you specify a url, and we create an object out of it
         saveUrl: sendSaveUrl
         draw: draw
+        nextIndex: nextIndex
 

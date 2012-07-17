@@ -13,7 +13,11 @@ define (require) ->
     room = Room $scope, roomId
     room.join {name: "sean"}
 
+    currentIndex = 0
+
     $scope.room = room
+
+    $scope.order = 'index'
 
     $scope.newImage = ->
 
@@ -21,16 +25,21 @@ define (require) ->
     $scope.onDropUrl = room.saveUrl
 
     ## DRAG A CARD #############################################
+
+    $scope.onDragStart = (object) ->
+      object.index = room.nextIndex()
+
     # # I need to call it with: object, changeX, changeY
     $scope.onDragEnd = (object) ->
-      console.log "DRAG END #{object._id}"
+      # console.log "DRAG END #{object._id}"
       room.save object
 
     # # local move modification
+    # sorted by stuffssszz!
     $scope.onDragMove = (object, dx, dy) ->
       object.position.left += dx
       object.position.top += dy
-
+      # console.log "OBJECT INDEX #{object.index}"
 
     ## DRAW CARD ###############################################
     $scope.onDragClick = (object) ->

@@ -1,12 +1,12 @@
 <div id="room" droppable dropUrl="onDropUrl(url)">
 
   <!-- I MUST bind to the position! -->
-  <div class="object {{object._type}}" ng-repeat="object in room.objects" draggable dragMove="onDragMove(object, dx, dy)" dragEnd="onDragEnd(object)" ng-style="object.position" ng-switch on="object._type" dragClick="onDragClick(object)">
+  <div class="object {{object._type}} card" ng-repeat="object in room.objects | orderBy:order " draggable dragStart="onDragStart(object)" dragMove="onDragMove(object, dx, dy)" dragEnd="onDragEnd(object)" ng-style="object.position" ng-switch on="object._type" dragClick="onDragClick(object)">
 
     <!-- how should I render a deck? -->
     <div class="deck" ng-switch-when="deck">
       <img ng-src="{{object.backImageUrl}}"/>
-      <div>{{object.objects.length}}</div>
+      <div class="num">{{object.objects.length}}</div>
     </div>
 
     <!-- card / default -->

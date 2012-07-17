@@ -20,10 +20,8 @@ exports.createServer = ->
 
   app.configure ->
     publicDir = __dirname + "/../public"
-    console.log publicDir
     app.use express.bodyParser()
     app.use coffeepot publicDir
-    app.use express.static publicDir
 
     # stylus
     app.use stylus.middleware
@@ -35,6 +33,8 @@ exports.createServer = ->
           .use(nib())
           .import('nib') # global access to nib functions
           .set('filename', path)
+
+    app.use express.static publicDir
 
   app.get '/rooms', (req, res) -> rooms.all send(res)
   app.get '/rooms/:id/objects', (req, res) ->
