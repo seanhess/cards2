@@ -17,7 +17,7 @@ define (require) ->
 
     $scope.room = room
 
-    $scope.order = 'index'
+    $scope.order = 'modified'
 
     $scope.newImage = ->
 
@@ -27,7 +27,7 @@ define (require) ->
     ## DRAG A CARD #############################################
 
     $scope.onDragStart = (object) ->
-      object.index = room.nextIndex()
+      object.modified = Date.now()
 
     # # I need to call it with: object, changeX, changeY
     $scope.onDragEnd = (object) ->
@@ -39,7 +39,6 @@ define (require) ->
     $scope.onDragMove = (object, dx, dy) ->
       object.position.left += dx
       object.position.top += dy
-      # console.log "OBJECT INDEX #{object.index}"
 
     ## DRAW CARD ###############################################
     $scope.onDragClick = (object) ->

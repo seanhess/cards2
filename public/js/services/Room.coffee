@@ -62,21 +62,12 @@ define (require) ->
 
       # draw a card from the deck and return it
       draw = (deck) ->
-        console.log "DECK", deck._id
         card = deck.objects.shift()
         if card?
           card.position =
             left: deck.position.left + 200
             top: deck.position.top
           sendSave card
-
-      # tells you the next highest index in the room
-      currentIndex = null
-      nextIndex = (index) ->
-        if not currentIndex?
-          currentIndex = max room.objects, (obj) -> obj.index
-          currentIndex or= 0
-        return ++currentIndex
 
       # socket. must call $scope.apply. Is there a better way to do this?
       socket.on 'save', apply(save)
@@ -95,5 +86,4 @@ define (require) ->
         # lets you specify a url, and we create an object out of it
         saveUrl: sendSaveUrl
         draw: draw
-        nextIndex: nextIndex
 
