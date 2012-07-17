@@ -27,7 +27,6 @@ jQuery.fn.draggable = (options) ->
     startPosition = el.position()
     position = {left: startPosition.left, top: startPosition.top}
 
-    el.addClass "dragging"
     el.trigger "dragstart", e
 
     if (e.targetTouches)
@@ -65,6 +64,8 @@ jQuery.fn.draggable = (options) ->
     # should I do this automatically?
     position.left += changeX
     position.top += changeY
+
+    el.addClass "dragging"
 
     if options.shouldMove
       el.css position

@@ -36,6 +36,10 @@ define (require) ->
     $scope.onDragClick = (object) ->
       if object._type is "deck"
         room.draw object
+        
+    $scope.offsetCard = (index) ->
+      left: -index/3
+      top: -index/3
 
   RoomsCtrl = ->
 
