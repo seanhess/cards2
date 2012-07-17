@@ -3,10 +3,10 @@
 
 # Feature a day
     [ ] Draw a card
-        - don't save all the cards when you drag a deck, just the id and position? support updates that way
-    [ ] Tap cards
-    [ ] Flip cards over
+        [ ] show deck height / emptiness
+        [ ] card draw should remove object from all clients and server
     [ ] Put cards in your Hand
+        [ ] draw card to hand instead of showing it
     [ ] My Collection - a grid-based place to put things
         [ ] persistent data storage
         [ ] user accounts?
@@ -15,6 +15,9 @@
     [ ] Reshuffle
     [ ] Put cards on deck
     [ ] Put cards in Discard pile
+
+    [ ] Tap cards
+    [ ] Flip cards over
   
 
 # Todo

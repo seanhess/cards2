@@ -1,0 +1,43 @@
+
+html, body, div
+  padding: 0px;
+  margin: 0px;
+
+#room
+  height: 5000px;
+
+  &.dragover
+    background-color: #EEE;
+
+  form.debugAddUrl
+    position: absolute;
+    display: block;
+
+  .object
+    position: absolute;
+    transition: all 300ms ease;
+    -webkit-transition: all 300ms ease;
+
+    &.drag
+      box-shadow: 2px 2px 4px #666;
+      transform: scale(1.05) rotate(2deg)
+
+    &.dragging
+      transition: none;
+      -webkit-transition: none;
+
+    &.deck
+
+      img
+        position: absolute;
+        background: #eee;
+        border: 1px solid #FFF;
+        border-radius: 20px;
+        box-shadow: 2px 2px 4px #DDD;  
+
+      > div
+        font-size: 85px;  
+
+  .users
+    float: right;
+    background-color: #F00;
