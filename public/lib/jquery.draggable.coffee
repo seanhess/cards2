@@ -79,11 +79,10 @@ jQuery.fn.draggable = (options) ->
 
   stop = ->
     el.removeClass "dragging"
+    el.trigger "dragend"
 
     if squareDistance() < options.dragClickTolerance
       el.trigger "dragclick"
-    else
-      el.trigger "dragend"
 
     $(window)
       .unbind("mousemove touchmove", move)
