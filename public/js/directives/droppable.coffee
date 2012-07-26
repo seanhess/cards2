@@ -2,6 +2,10 @@
 # <div droppable dropFile="onDropFile()" dropUrl="onDropUrl()">
 # also sets "dragover" class when something is over the dom element
 
+# NATIVE droppable
+# native-droppable
+# nativedroppabel
+
 define (require) ->
   jquery = require 'jquery'
   droppable = ($parse) ->
@@ -15,7 +19,7 @@ define (require) ->
 
       cancel = (e) ->
         e?.preventDefault?()               # required by FF + Safari
-        e.dataTransfer.dropEffect = 'copy' # tells the browser what drop effect is allowed here
+        e.originalEvent.dataTransfer.dropEffect = 'copy' # tells the browser what drop effect is allowed here
         return false                       # required by IE
 
       onDragEnter = (e) ->
@@ -31,14 +35,15 @@ define (require) ->
 
       onDrop = (e) ->
         onDragExit e
+        dataTransfer = e.originalEvent.dataTransfer
 
         ## DRAG FILE
-        files = e.dataTransfer.files ? []
+        files = dataTransfer.files ? []
 
         ## DRAG URL
         # mac chrome canary: text/html, text-uri-list
         # safari: text, text-uri-list
-        url = e.dataTransfer.getData "text/uri-list"
+        url = dataTransfer.getData "text/uri-list"
         if url? then dropUrl scope, {url}
 
 
@@ -54,14 +59,16 @@ define (require) ->
         #   reader.readAsBinaryString file
         #   reader.readAsArrayBuffer file
 
-        # e.dataTransfer.types.forEach (type) ->
-        #   console.log type, e.dataTransfer.getData(type)
+        # dataTransfer.types.forEach (type) ->
+        #   console.log type, dataTransfer.getData(type)
 
       noop = (e) ->
 
-      dom.addEventListener "dragenter", onDragEnter, false
-      dom.addEventListener "dragover", onDragOver, false
-      # dom.addEventListener "dragexit", onDragExit, false
-      dom.addEventListener "dragleave", onDragExit, false
+      # dom.addEventListener "dragover", onDragOver, false
+      element.bind 'dragenter', onDragEnter
+      element.bind 'dragover', onDragOver
 
-      dom.addEventListener "drop", onDrop, false
+      # dom.addEventListener "dragexit", onDragExit, false
+      element.bind "dragleave", onDragExit
+
+      element.bind "drop", onDrop

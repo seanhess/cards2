@@ -60,7 +60,7 @@ define (require) ->
       sendSaveUrl = (url) ->
         emit 'saveUrl', {url}
 
-      # draw a card from the deck and return it
+      # draw a card from the deck and return it (PUT THIS ON THE SERVER)
       draw = (deck) ->
         card = deck.objects.shift()
         if card?

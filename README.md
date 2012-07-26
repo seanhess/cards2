@@ -1,42 +1,63 @@
 # Cards2
+[ ] Drag and Drop:
+  - use html5 drag and drop, totally simple/natural, just change the drag target/image thing and tie into it. it'll all work.  DO THIS!
+  xxx not going to look as good. you can't do the effects like you can otherwise
+  xxx must be a drag IMAGE
+  xxx hard to get it working. why is it too hard
 
+  - figure out how to tie your fake drag and drop into the real one
+  xxx doesn't work to make it do BOTH.
+
+  - fully fake drag and drop (don't use real, if something is draggable, then check to see if it hits it. 
+    -- who needs the native stuff! It's annoying. See how rob does it.
+  xxx rob keeps a freaking GLOBAL array of droppables
+
+  - find a jquery plugin that does something close
+  xxx t0o hard with bad internet
+  xxx it looks like they just do it custom anyway
+
+  OK, MAKE YOUR OWN CUSTOM
+  -- already can get it draggable, and get data onto the event, or something
+  -- how to get a drop hover thing going?
+
+  -- on draggable drag move, check for hits at event location?
 
 # Feature a day
     [ ] Draw a card
         [x] show deck height / emptiness (just use a number)
         [ ] card draw should remove object from all clients and server
 
-    [ ] Drag should put the card on top
-        [ ] I don't want a context menu. Drag puts it on TOP, so you can order things that way. 
-        --- but you more often want to put something BELOW something else in magic. 
-        --- a single tap will put it on top!
+    [x] Drag should put the card on top
+    [x] Better drag (should pick up earlier. How to work with tap as well?)
 
-    [ ] Better drag (should pick up earlier. How to work with tap as well?)
 
-    [ ] Put cards in your Hand
+DRAG AND DROP
+  - don't support touch devices. The resolutions are all different. Everything is different
+  - then you can use normal drag and drop instead of your custom one (then you can set data)
+
+
+    [ ] My Hand - persistent thing. Collection, with reorder?
+        --- just make one hand for now
+        [ ] drop cards onto it, they disappear? (they get added to a hand)
         [ ] draw card to hand instead of showing it
-    [ ] My Collection - a grid-based place to put things
+
+    [ ] Build a deck
+        [ ] My Collection - a grid-based place to put things
         [ ] persistent data storage
         [ ] user accounts?
-    [ ] Tokens
-    [ ] Smaller, standard sized cards
-    [ ] Reshuffle
+
+    [ ] Shuffle
     [ ] Put cards on deck
     [ ] Put cards in Discard pile
 
-    [ ] Tap cards
     [ ] Flip cards over
-
-
-
-
+    [ ] Tokens/Counters? (No, just use extra cards)
     [ ] Context Menu! (there are too many actions to perform, like move back)
 
     [ ] Zoom? How are you going to fit everything?
       [ ] focus card (closer look)
       [ ] scrolling works great
       [ ] zoom gestures?
-  
 
 # Todo
 √ drag and drop images

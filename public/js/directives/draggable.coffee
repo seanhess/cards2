@@ -1,6 +1,5 @@
 
 define (require) ->
-
   require 'draggable'
 
   draggable = ($parse) ->

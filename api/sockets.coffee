@@ -61,3 +61,7 @@ exports.listen = (app, rooms) ->
         objects.forEach (obj) ->
           socket.emit 'save', obj
 
+
+    # this should draw to your HAND
+    # socket.on "draw", info (channel, room, deck) ->
+

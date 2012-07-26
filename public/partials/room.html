@@ -1,7 +1,30 @@
 <div id="room" droppable dropUrl="onDropUrl(url)">
 
+  <script type="text/javascript">
+    function drag(e) {
+      e.dataTransfer.setData('text/plain', 'This text may be dragged')
+      console.log("WOOT", e.dataTransfer.getData('text/plain'))
+    }
+  </script>
+
+  <!-- I need to drop DATA now -->
+  <!-- interesting. dropData="" -->
+  <!-- 1. Drag a card into the hand and have it visually respond -->
+  <div class="hand" asdf>
+
+  </div>
+
   <!-- I MUST bind to the position! -->
-  <div class="object {{object._type}} card" ng-repeat="object in room.objects | orderBy:order " draggable dragStart="onDragStart(object)" dragMove="onDragMove(object, dx, dy)" dragEnd="onDragEnd(object)" ng-style="object.position" ng-switch on="object._type" dragClick="onDragClick(object)">
+  <div 
+    class="object {{object._type}} card" 
+    ng-repeat="object in room.objects | orderBy:order" 
+    adraggable 
+      dragStart="onDragStart(object)" 
+      dragMove="onDragMove(object, dx, dy)" 
+      dragEnd="onDragEnd(object)" 
+    ng-style="object.position" 
+    ng-switch on="object._type" 
+    dragClick="onDragClick(object)">
 
     <!-- how should I render a deck? -->
     <div class="deck" ng-switch-when="deck">
@@ -32,6 +55,15 @@
       {{user.name}}
     </div>
   </div>
+
+
+  <div draggable="true" ondragstart="drag(event)">
+    This text <strong>may</strong> be dragged.
+  </div>
+
+
+
+
 </div>
 
 

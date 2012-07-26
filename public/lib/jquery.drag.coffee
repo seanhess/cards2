@@ -1,11 +1,4 @@
 
-jQuery.fn.droppable = (options) ->
-  options ?= {}
-  element = el = this
-  element.data "droppable", options
-  element.bind 'dragover', (e) ->
-
-
 jQuery.fn.draggable = (options) ->
   options ?= {}
   options.shouldMove ?= false
@@ -23,7 +16,9 @@ jQuery.fn.draggable = (options) ->
     # requires position absolute
     el.css position: 'absolute'
 
+
   dragStart = (e) ->
+    console.log "DRAG START"
     e.preventDefault()
     e.dataTransfer?.setData("text/plain", "wooooot")
     el.css 'pointer-events', 'none'
@@ -78,9 +73,7 @@ jQuery.fn.draggable = (options) ->
       y = e.clientY
 
 
-    # hit = document.elementFromPoint(x, y)
-    # if hit?
-    #   $(hit).trigger 'dragover', e
+    hit = document.elementFromPoint(x, y)
 
     changeX = x - startDragX
     changeY = y - startDragY
