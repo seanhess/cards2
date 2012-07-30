@@ -29,6 +29,6 @@ define (require) ->
   angular.module('cards.directives', [])
     .directive('appVersion', appVersion)
     .directive('droppable', droppable)
-    .directive('adraggable', draggable)
+    .directive('draggable', draggable)
     .directive('asdf', asdf)
 

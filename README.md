@@ -1,5 +1,15 @@
 # Cards2
+
+CLEANUP
+[ ] single click no longer triggers the modifcation thing (end?) Make it so it changes it so they can be on top. 
+
 [ ] Drag and Drop:
+  [x] only accept correct drag types
+      [ ] get drop exits working
+  [x] drop object
+  [ ] also works with drop url
+  [ ] angular bindings
+
   - use html5 drag and drop, totally simple/natural, just change the drag target/image thing and tie into it. it'll all work.  DO THIS!
   xxx not going to look as good. you can't do the effects like you can otherwise
   xxx must be a drag IMAGE

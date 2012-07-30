@@ -4,12 +4,17 @@ define (require) ->
 
   draggable = ($parse) ->
     (scope, element, atts) ->
+      dragType = atts.draggable
       onMove = $parse atts.dragmove
       onEnd = $parse atts.dragend
       onClick = $parse atts.dragclick
       onStart = $parse atts.dragstart
+      getData = $parse atts.dragdata
 
-      element.draggable()
+
+      element.draggable
+        dragType: dragType
+        dragData: getData scope
 
       element.bind "dragstart", (e) ->
         scope.$apply ->

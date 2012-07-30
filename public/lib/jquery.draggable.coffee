@@ -1,15 +1,15 @@
 
-jQuery.fn.droppable = (options) ->
-  options ?= {}
-  element = el = this
-  element.data "droppable", options
-  element.bind 'dragover', (e) ->
 
+
+
+## DRAGGABLE ########################################
 
 jQuery.fn.draggable = (options) ->
   options ?= {}
   options.shouldMove ?= false
   options.dragClickTolerance ?= 10
+  options.dragData ?= null
+  options.dragType ?= null
 
   element = el = this
   startDragX = startDragY = 0
@@ -25,7 +25,6 @@ jQuery.fn.draggable = (options) ->
 
   dragStart = (e) ->
     e.preventDefault()
-    e.dataTransfer?.setData("text/plain", "wooooot")
     el.css 'pointer-events', 'none'
 
   enable = el.draggableEnable = ->
@@ -77,10 +76,15 @@ jQuery.fn.draggable = (options) ->
       x = e.clientX
       y = e.clientY
 
-
-    # hit = document.elementFromPoint(x, y)
-    # if hit?
-    #   $(hit).trigger 'dragover', e
+    # check for drops onto our cousins, droppables
+    hit = document.elementFromPoint(x, y)
+    if hit? and $(hit).data(Droppable)
+      # create a dragover event!
+      event = $.Event "dragover"
+      event.originalEvent = e
+      event.dragData = options.dragData
+      event.dragType = options.dragType
+      $(hit).trigger event
 
     changeX = x - startDragX
     changeY = y - startDragY
@@ -97,18 +101,34 @@ jQuery.fn.draggable = (options) ->
     startDragX = x
     startDragY = y
 
+
   squareDistance = ->
     Math.abs(startPosition.left - position.left) + Math.abs(startPosition.top - position.top)
 
   stop = (e) ->
-    el.removeClass "dragging"
-    el.trigger "dragend"
-    el.css 'pointer-events', 'auto'
+    if e.originalEvent then e = e.originalEvent
+
+    x = e.clientX
+    y = e.clientY
 
     # e.dataTransfer?.setData("text/plain", "wooooot")
 
     if squareDistance() < options.dragClickTolerance
       el.trigger "dragclick"
+
+    else
+      hit = document.elementFromPoint(x, y)
+      if hit? and $(hit).data(Droppable)
+        event = $.Event "drop"
+        event.originalEvent = e
+        event.dragData = options.dragData
+        event.dragType = options.dragType
+        $(hit).trigger event
+
+    # cleanup
+    el.removeClass "dragging"
+    el.trigger "dragend"
+    el.css 'pointer-events', 'auto'
 
     $(window)
       .unbind("mousemove touchmove", move)
@@ -118,6 +138,98 @@ jQuery.fn.draggable = (options) ->
   enable()
 
   return this
+
+
+
+
+
+
+
+
+## DROPPABLE  ################################################
+
+Droppable = "droppable"
+
+jQuery.fn.droppable = (options) ->
+  options ?= {}
+  options.onDropData ?= (data) -> throw new Error "you should specify onDropData in the options for jquery.draggable"
+  options.onDropUrl ?= (url) -> throw new Error "you should specify onDropUrl in the options for jquery.draggable"
+  options.dragTypes ?= []     # array of hash types we accept. empty array means you accept all
+
+  element = el = this
+  element.data Droppable, options
+  timer = null
+
+  # whether we should accept or not
+  accepts = (e) ->
+    acceptsAny = options.dragTypes.length is 0
+    acceptsType = e.dragType in options.dragTypes
+    return acceptsAny or acceptsType
+
+  claim = (e) ->
+    e?.preventDefault?()               # required by FF + Safari
+    e?.originalEvent?.dataTransfer?.dropEffect = 'copy' # tells the browser what drop effect is allowed here
+    return false                       # required by IE
+
+  onDragEnter = (e) ->
+    return if not accepts e
+    claim e
+
+  onDragExit = (e) ->
+    return if not accepts e
+    element.removeClass "dragover"
+    claim e
+
+  onDragOver = (e) ->
+    return if not accepts e
+    element.addClass "dragover"
+    claim e
+
+  onDrop = (e) ->
+    return if not accepts e
+    onDragExit e
+
+    # jquery drag and drop object! call our dropData function
+    if e.dragData?
+      options.onDropData e.dragData
+
+    else
+      dataTransfer = e.originalEvent.dataTransfer
+
+      ## DRAG FILE
+      files = dataTransfer.files ? []
+
+      ## DRAG URL
+      # mac chrome canary: text/html, text-uri-list
+      # safari: text, text-uri-list
+      url = dataTransfer.getData "text/uri-list"
+      if url? then options.onDropUrl url
+
+      # I don't know what to do with files!
+      # FileReader doesn't work in safari!! Oh well, URLs work, and I'd rather do that anyway :)
+      # Array.prototype.forEach.call files, (file) ->
+      #   reader = new FileReader()
+      #   reader.onload = (e) ->
+      #     dropFile scope, {file: e.target.result}
+      #   reader.readAsDataURL file
+      #   reader.readAsDataURL file
+      #   reader.readAsText file
+      #   reader.readAsBinaryString file
+      #   reader.readAsArrayBuffer file
+
+      # dataTransfer.types.forEach (type) ->
+      #   console.log type, dataTransfer.getData(type)
+
+  noop = (e) ->
+
+  # dom.addEventListener "dragover", onDragOver, false
+  element.bind 'dragenter', onDragEnter
+  element.bind 'dragover', onDragOver
+  # dom.addEventListener "dragexit", onDragExit, false
+  element.bind "dragleave", onDragExit
+  element.bind "drop", onDrop
+
+
 
 
 

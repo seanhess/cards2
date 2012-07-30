@@ -1,11 +1,7 @@
-<div id="room" droppable dropUrl="onDropUrl(url)">
-
-  <script type="text/javascript">
-    function drag(e) {
-      e.dataTransfer.setData('text/plain', 'This text may be dragged')
-      console.log("WOOT", e.dataTransfer.getData('text/plain'))
-    }
-  </script>
+<div 
+  id="room" 
+  droppable="woot"
+  dropUrl="onDropUrl(url)">
 
   <!-- I need to drop DATA now -->
   <!-- interesting. dropData="" -->
@@ -18,7 +14,8 @@
   <div 
     class="object {{object._type}} card" 
     ng-repeat="object in room.objects | orderBy:order" 
-    adraggable 
+    draggable="woot"
+      dragData="object"
       dragStart="onDragStart(object)" 
       dragMove="onDragMove(object, dx, dy)" 
       dragEnd="onDragEnd(object)" 
@@ -55,14 +52,6 @@
       {{user.name}}
     </div>
   </div>
-
-
-  <div draggable="true" ondragstart="drag(event)">
-    This text <strong>may</strong> be dragged.
-  </div>
-
-
-
 
 </div>
 
