@@ -1,20 +1,24 @@
 <div 
   id="room" 
-  droppable="woot"
+  class="room"
+  droppable="url"
   dropUrl="onDropUrl(url)">
 
-  <!-- I need to drop DATA now -->
-  <!-- interesting. dropData="" -->
-  <!-- 1. Drag a card into the hand and have it visually respond -->
-  <div class="hand" asdf>
+  <!-- HAND -->
+  <div 
+    id="hand"
+    class="hand"
+    droppable="card"
+    dropData="dropCardInHand(data)"
+    >
 
   </div>
 
-  <!-- I MUST bind to the position! -->
+  <!-- BOARD -->
   <div 
     class="object {{object._type}} card" 
     ng-repeat="object in room.objects | orderBy:order" 
-    draggable="woot"
+    draggable="{{object._type}}"
       dragData="object"
       dragStart="onDragStart(object)" 
       dragMove="onDragMove(object, dx, dy)" 

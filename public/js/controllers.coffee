@@ -24,6 +24,9 @@ define (require) ->
     ## DROP FILES ##############################################
     $scope.onDropUrl = room.saveUrl
 
+    $scope.dropCardInHand = (card) ->
+      console.log "DROP CARD IN HAND", card
+
     ## DRAG A CARD #############################################
 
     $scope.onDragStart = (object) ->

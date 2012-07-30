@@ -3,53 +3,13 @@
 CLEANUP
 [ ] single click no longer triggers the modifcation thing (end?) Make it so it changes it so they can be on top. 
 
-[ ] Drag and Drop:
-  [x] only accept correct drag types
-      [ ] get drop exits working
-  [x] drop object
-  [ ] also works with drop url
-  [ ] angular bindings
-
-  - use html5 drag and drop, totally simple/natural, just change the drag target/image thing and tie into it. it'll all work.  DO THIS!
-  xxx not going to look as good. you can't do the effects like you can otherwise
-  xxx must be a drag IMAGE
-  xxx hard to get it working. why is it too hard
-
-  - figure out how to tie your fake drag and drop into the real one
-  xxx doesn't work to make it do BOTH.
-
-  - fully fake drag and drop (don't use real, if something is draggable, then check to see if it hits it. 
-    -- who needs the native stuff! It's annoying. See how rob does it.
-  xxx rob keeps a freaking GLOBAL array of droppables
-
-  - find a jquery plugin that does something close
-  xxx t0o hard with bad internet
-  xxx it looks like they just do it custom anyway
-
-  OK, MAKE YOUR OWN CUSTOM
-  -- already can get it draggable, and get data onto the event, or something
-  -- how to get a drop hover thing going?
-
-  -- on draggable drag move, check for hits at event location?
-
-# Feature a day
-    [ ] Draw a card
-        [x] show deck height / emptiness (just use a number)
-        [ ] card draw should remove object from all clients and server
-
-    [x] Drag should put the card on top
-    [x] Better drag (should pick up earlier. How to work with tap as well?)
+[x] Drag and Drop:
+[ ] My Hand
+  [ ] drop cards into it, they get added to its collection
+  [ ] cards get removed from the board
+  [ ] draw moves immediately to the hand
 
 
-DRAG AND DROP
-  - don't support touch devices. The resolutions are all different. Everything is different
-  - then you can use normal drag and drop instead of your custom one (then you can set data)
-
-
-    [ ] My Hand - persistent thing. Collection, with reorder?
-        --- just make one hand for now
-        [ ] drop cards onto it, they disappear? (they get added to a hand)
-        [ ] draw card to hand instead of showing it
 
     [ ] Build a deck
         [ ] My Collection - a grid-based place to put things

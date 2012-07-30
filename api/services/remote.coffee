@@ -4,8 +4,10 @@ request = require 'request'
 # downloads the url, and creates an object based on it
 exports.downloadUrl = curry (url, cb) ->
 
+  # assume it is a card!
   if isImageUrl url
     object =
+      _type: "card"
       imageUrl: url
       position: {left: 0, top: 0}
     return cb null, object

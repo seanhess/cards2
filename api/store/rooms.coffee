@@ -8,10 +8,11 @@ exports.Rooms = (data) ->
   data ?=
     woot: Room
       '6equd9v9pphkt9':
-        imageUrl: 'http://magiccards.info/scans/en/pd3/3.jpg',
-        position: { left: 476, top: 44 },
-        roomId: 'woot',
+        imageUrl: 'http://magiccards.info/scans/en/pd3/3.jpg'
+        position: { left: 476, top: 44 }
+        roomId: 'woot'
         _id: '6equd9v9pphkt9'
+        _type: 'card'
   
   # can't remove, just get lazily. Always created
   room: (id) ->

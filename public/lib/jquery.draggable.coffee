@@ -16,6 +16,9 @@ jQuery.fn.draggable = (options) ->
   startPosition = null
   position = null
 
+
+  currentTarget = null
+
   # dom = this.get(0)
   # dom.addEventListener "dragstart", (e) ->
 
@@ -78,13 +81,13 @@ jQuery.fn.draggable = (options) ->
 
     # check for drops onto our cousins, droppables
     hit = document.elementFromPoint(x, y)
+
+    if currentTarget and hit != currentTarget
+      trigger currentTarget, e, "dragleave"
+
     if hit? and $(hit).data(Droppable)
-      # create a dragover event!
-      event = $.Event "dragover"
-      event.originalEvent = e
-      event.dragData = options.dragData
-      event.dragType = options.dragType
-      $(hit).trigger event
+      trigger hit, e, "dragover"
+      currentTarget = hit
 
     changeX = x - startDragX
     changeY = y - startDragY
@@ -101,6 +104,12 @@ jQuery.fn.draggable = (options) ->
     startDragX = x
     startDragY = y
 
+  trigger = (target, e, name) ->
+    event = $.Event name
+    event.originalEvent = e
+    event.dragData = options.dragData
+    event.dragType = options.dragType
+    $(target).trigger event
 
   squareDistance = ->
     Math.abs(startPosition.left - position.left) + Math.abs(startPosition.top - position.top)
@@ -119,11 +128,7 @@ jQuery.fn.draggable = (options) ->
     else
       hit = document.elementFromPoint(x, y)
       if hit? and $(hit).data(Droppable)
-        event = $.Event "drop"
-        event.originalEvent = e
-        event.dragData = options.dragData
-        event.dragType = options.dragType
-        $(hit).trigger event
+        trigger hit, e, "drop"
 
     # cleanup
     el.removeClass "dragging"
@@ -158,14 +163,17 @@ jQuery.fn.droppable = (options) ->
 
   element = el = this
   element.data Droppable, options
-  timer = null
 
   # whether we should accept or not
   accepts = (e) ->
-    isNative = not e.dragType?
+
+    # make this work with urls
+    url = e.originalEvent?.dataTransfer?.getData "text/uri-list"
+    if url? then e.dragType = "url"
+
     acceptsAny = options.dragTypes.length is 0
     acceptsType = e.dragType in options.dragTypes
-    return isNative or acceptsAny or acceptsType
+    return acceptsAny or acceptsType
 
   claim = (e) ->
     e?.preventDefault?()               # required by FF + Safari
@@ -176,7 +184,7 @@ jQuery.fn.droppable = (options) ->
     return if not accepts e
     claim e
 
-  onDragExit = (e) ->
+  onDragLeave = (e) ->
     return if not accepts e
     element.removeClass "dragover"
     claim e
@@ -188,7 +196,7 @@ jQuery.fn.droppable = (options) ->
 
   onDrop = (e) ->
     return if not accepts e
-    onDragExit e
+    onDragLeave e
 
     # jquery drag and drop object! call our dropData function
     if e.dragData?
@@ -227,7 +235,7 @@ jQuery.fn.droppable = (options) ->
   element.bind 'dragenter', onDragEnter
   element.bind 'dragover', onDragOver
   # dom.addEventListener "dragexit", onDragExit, false
-  element.bind "dragleave", onDragExit
+  element.bind "dragleave", onDragLeave
   element.bind "drop", onDrop
 
 
