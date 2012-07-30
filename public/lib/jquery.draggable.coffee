@@ -162,9 +162,10 @@ jQuery.fn.droppable = (options) ->
 
   # whether we should accept or not
   accepts = (e) ->
+    isNative = not e.dragType?
     acceptsAny = options.dragTypes.length is 0
     acceptsType = e.dragType in options.dragTypes
-    return acceptsAny or acceptsType
+    return isNative or acceptsAny or acceptsType
 
   claim = (e) ->
     e?.preventDefault?()               # required by FF + Safari
