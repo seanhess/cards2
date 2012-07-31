@@ -5,6 +5,8 @@ sockets = require './sockets'
 {Rooms} = require './store/rooms'
 {downloadUrl} = require './services/remote'
 
+Mongolian = require 'mongolian'
+
 stylus = require 'stylus'
 nib = require 'nib'
 
@@ -15,7 +17,8 @@ coffeepot = require 'coffeepot'
 exports.createServer = ->
   app = express.createServer()
 
-  rooms = Rooms()
+  db = new Mongolian "mongodb://localhost:27017/cards"
+  rooms = Rooms db.collection 'objects'
   sockets.listen app, rooms
 
   app.configure ->
@@ -36,25 +39,10 @@ exports.createServer = ->
 
     app.use express.static publicDir
 
-  app.get '/rooms', (req, res) -> rooms.all send(res)
-  app.get '/rooms/:id/objects', (req, res) ->
-    roomActions.newObject req.param('id'), req.body
-    room = rooms.room req.param 'id'
-    room.all send(res)
-
-  # given a url, look up an object and then create it
-  app.post '/rooms/:id/objects/url', (req, res) ->
-    room = rooms.room req.param 'id'
-    url = req.body
-    series downloadUrl(url), room.save, send(res)
-
-  # create
-  app.post '/rooms/:id/objects', (req, res) ->
-    room = rooms.room req.param 'id'
-    object = req.body
-    room.save object, send(res)
 
 
+
+  # fake data
   app.get '/debug/cards/example', (req, res) ->
     res.send {imageUrl:'http://magiccards.info/scans/en/pd3/2.jpg'}
 
@@ -63,105 +51,18 @@ exports.createServer = ->
       backImageUrl: "http://upload.wikimedia.org/wikipedia/en/a/aa/Magic_the_gathering-card_back.jpg"
       _type: "deck"
       objects: [
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg"}
-        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg"}
-        
+        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/8.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/9.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/3.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/4.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/5.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/6.jpg", _type: "card"}
+        {imageUrl: "http://magiccards.info/scans/en/pd3/7.jpg", _type: "card"}
       ]
 
   return app

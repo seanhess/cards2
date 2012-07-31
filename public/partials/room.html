@@ -12,12 +12,26 @@
     dropData="dropCardInHand(data)"
     >
 
+    <div
+      class="card"
+      ng-repeat="card in hand"
+      draggable="card"
+        dragData="card"
+        dragStart="dragHand(card)"
+        dragMove="onDragMove(object, dx, dy)" 
+        dragEnd="onDragEnd(object)" 
+      >
+
+      <img ng-src="{{card.imageUrl}}">
+
+    </div>
+
   </div>
 
   <!-- BOARD -->
   <div 
     class="object {{object._type}} card" 
-    ng-repeat="object in room.objects | orderBy:order" 
+    ng-repeat="object in room.objects | orderBy:objectOrder" 
     draggable="{{object._type}}"
       dragData="object"
       dragStart="onDragStart(object)" 

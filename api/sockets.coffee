@@ -32,36 +32,23 @@ exports.listen = (app, rooms) ->
         # channel = socket. roomId
         channel = io.sockets.in roomId
 
-        room = rooms.room roomId
-        cb channel, room, data
+        cb channel, data
 
-
-    saveObject = curry (channel, room, object) ->
-      room.save object, (err, object) ->
+    socket.on "save", info (channel, object) ->
+      console.log "SAVING", object
+      rooms.save object, (err) ->
         channel.emit "save", object
 
-    socket.on "save", info(saveObject)
-
-    socket.on "remove", info (channel, room, object) ->
-      room.remove object, (err, object) ->
+    socket.on "remove", info (channel, object) ->
+      rooms.remove object, (err, object) ->
         channel.emit "remove", object
 
-    socket.on "saveUrl", info (channel, room, object) ->
-      url = object.url
-      if not url? then return dump "saveUrl: url missing"
-      downloadUrl url, (err, object) ->
-        if err? then return dump "Could not fetch: '#{url}'"
-        saveObject channel, room, object
-
-    socket.on "join", info (channel, room, user) ->
+    socket.on "join", info (channel, user) ->
+      console.log "JOIN", user
       socket.join user.roomId
       channel.emit "join", user
 
-      room.all (err, objects) ->
+      rooms.all user.roomId, (err, objects) ->
         objects.forEach (obj) ->
           socket.emit 'save', obj
-
-
-    # this should draw to your HAND
-    # socket.on "draw", info (channel, room, deck) ->
 

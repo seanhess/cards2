@@ -1,13 +1,14 @@
 
 define (require) ->
   angular = require 'angular'
-  {find, clone, extend, max} = require 'underscore'
+  {find, clone, extend, max, pick} = require 'underscore'
   {curry} = require 'fjs'
   $ = require 'jquery'
   socketio = require 'socketio'
 
   dump = (data) -> console.log data
 
+  # a room is a synced collection
   Room = () ->
     ($scope, roomId) ->
 
@@ -18,56 +19,43 @@ define (require) ->
       isId = curry (id, obj) -> obj._id is id
       isNotId = curry (id, obj) -> obj._id isnt id
 
-      emit = (event, data) ->
+      emit = curry (event, data) ->
         data.roomId = roomId
         socket.emit event, data
 
-      save = (object) ->
-        existing = room.objectsById[object._id]
-        if not existing?
-          existing = room.objectsById[object._id] = object
-          room.objects.push object
+      save = (remote) ->
+        local = room.objectsById[remote._id]
+        if not local?
+          local = room.objectsById[remote._id] = remote
+          room.objects.push remote
         else
-          extend existing, object
+          extend local, remote
 
       remove = (object) ->
         delete room.objectsById[object._id]
         room.objects = room.objects.filter isNotId(object._id)
-
-      join = (user) ->
-        room.users.push user
 
       apply = (cb) ->
         (args...) ->
           $scope.$apply ->
             cb args...
 
+      join = (user) ->
+        room.users.push user
+
       getObject = (id) ->
         room.objects.filter(isId(id))[0]
 
       sendRemove = (object) ->
-        emit 'remove', {_id: object._id}
-
+        emit 'remove', pick(object, "_id")
       sendJoin = (user) ->
         emit 'join', user
+      sendSave = (object, fields...) ->
+        if fields.length
+          object = pick object, fields.concat("_id")
 
-      sendSave = (object) ->
-        # we don't want to update the objects of an object
-        object = clone object
-        delete object.objects
+        console.log "SAVING", object
         emit 'save', object
-
-      sendSaveUrl = (url) ->
-        emit 'saveUrl', {url}
-
-      # draw a card from the deck and return it (PUT THIS ON THE SERVER)
-      draw = (deck) ->
-        card = deck.objects.shift()
-        if card?
-          card.position =
-            left: deck.position.left + 200
-            top: deck.position.top
-          sendSave card
 
       # socket. must call $scope.apply. Is there a better way to do this?
       socket.on 'save', apply(save)
@@ -84,6 +72,4 @@ define (require) ->
         remove: sendRemove
         join: sendJoin
         # lets you specify a url, and we create an object out of it
-        saveUrl: sendSaveUrl
-        draw: draw
 

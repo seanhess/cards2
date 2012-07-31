@@ -6,6 +6,7 @@
 
 define (require) ->
   angular = require 'angular'
+  {pick} = require 'underscore'
   RoomCtrl = ($scope, $routeParams, Room) ->
 
     # make the room!
@@ -13,47 +14,67 @@ define (require) ->
     room = Room $scope, roomId
     room.join {name: "sean"}
 
-    currentIndex = 0
-
     $scope.room = room
+    $scope.objectOrder = 'modified'
 
-    $scope.order = 'modified'
+    $scope.hand = []
 
-    $scope.newImage = ->
+
+    # put in some fake data
+    # room.save {_id:"fake", _type: "card", imageUrl: "http://magiccards.info/scans/en/mbp/47.jpg", position: {left: 200, top:10}}
+
 
     ## DROP FILES ##############################################
-    $scope.onDropUrl = room.saveUrl
+    # $scope.onDropUrl = (url) ->
 
-    $scope.dropCardInHand = (card) ->
-      console.log "DROP CARD IN HAND", card
+    # $scope.dropCardInHand = (card) ->
+    #   $scope.hand.push card
+
+    # $scope.dragHand = (card) ->
+    #   # $scope.hand
+    #   card.position = {top: 100, left: 100}
+    #   $scope.room.objects.push card
+    #   $scope.onDragStart(card)
+
+      # are hands local, or synced?
+      # if you disconnect, what happens to your hand?
 
     ## DRAG A CARD #############################################
 
     $scope.onDragStart = (object) ->
       object.modified = Date.now()
 
-    # # I need to call it with: object, changeX, changeY
     $scope.onDragEnd = (object) ->
-      # console.log "DRAG END #{object._id}"
-      room.save object
+      room.save object, "position"
 
-    # # local move modification
-    # sorted by stuffssszz!
     $scope.onDragMove = (object, dx, dy) ->
       object.position.left += dx
       object.position.top += dy
 
     ## DRAW CARD ###############################################
     $scope.onDragClick = (object) ->
-      if object._type is "deck"
-        room.draw object
+      object.modified = Date.now()
+      # if object._type is "deck"
+      #   room.draw object
         
-    $scope.offsetCard = (index) ->
-      left: -index/3
-      top: -index/3
-
   RoomsCtrl = ->
 
   return {RoomCtrl, RoomsCtrl}
 
 
+
+
+
+
+###
+
+      # draw a card from the deck and return it (PUT THIS ON THE SERVER)
+      draw = (deck) ->
+        card = deck.objects.shift()
+        if card?
+          card.position =
+            left: deck.position.left + 200
+            top: deck.position.top
+          sendSave card
+
+###

@@ -3,11 +3,59 @@
 CLEANUP
 [ ] single click no longer triggers the modifcation thing (end?) Make it so it changes it so they can be on top. 
 
+
+
+CLIENT-SIZE MODEL WITH SERVER STORE
+[ ] save: updates the properties specified (underscore's pick)
+[ ] change to use a database
+
+
+
+[ ] decks: are a bunch of items at the same place. But they have 
+
+
+
+
+
+
+BEST MODEL
+either:
+  1. have all the functionality on the server. RPC. "drawCard", "blah", "blah"
+  2. have everything on the client: direct manipulation and just call "save"
+
+I think it will be easier to write if I adopt Rob's model: clients making changes to a shared data model (with locking? ownership?)
+
+
+
+Server Model: 
++ more reusable between clients
+- more annoying
+- hard to do things like dragging, where the client state is out of sync, or drawing from a hand, if you want to drag
+
+Collections
+  1. have a "collection" object on the server
+  2. have a "group" property on the objects (lets you drag it around as a group)
+
 [x] Drag and Drop:
 [ ] My Hand
   [ ] drop cards into it, they get added to its collection
+      [ ] store hands on the server
   [ ] cards get removed from the board
+      [ ] store on the server
   [ ] draw moves immediately to the hand
+
+  [ ] drag out removes from hand. + persist
+  [ ] drag out adds to board
+      [ ] get position from start event
+      [ ] put it at the right spot. and let it move
+
+
+  [ ] GENERIC: collections / groups of stuff
+    --- hand, discard piles, decks
+    you can drag items into them    
+    you can drag items OUT of them (different depending on type)
+    items end up BACK on the board (maybe I shouldn't actually HIDE them then. Do what rob does and just set the position. keep it simple)
+    (OR - I need a way to add/remove them, etc)
 
 
 
@@ -63,3 +111,11 @@ How to render a deck?
 # QUESTIONS
 * how can I get my socket service to work without passing the $scope? seems lame to use $rootScope, or is it not that bad?
 * better way to pass variables back to your function, without them needing to magically know it?
+
+
+
+
+
+
+
+jquery nearest plugin: will find the nearest element matching a selector
