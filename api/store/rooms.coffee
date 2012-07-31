@@ -24,7 +24,6 @@ exports.Rooms = (collection) ->
 
   # objects as an array
   all: (roomId, cb) ->
-    console.log "GO GO GO", roomId
     collection.find({roomId}).toArray(cb)
 
 

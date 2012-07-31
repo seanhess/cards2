@@ -7,7 +7,7 @@
 define (require) ->
   angular = require 'angular'
   {pick} = require 'underscore'
-  RoomCtrl = ($scope, $routeParams, Room) ->
+  RoomCtrl = ($scope, $routeParams, Room, urls) ->
 
     # make the room!
     roomId = $routeParams.id
@@ -19,13 +19,14 @@ define (require) ->
 
     $scope.hand = []
 
-
     # put in some fake data
     # room.save {_id:"fake", _type: "card", imageUrl: "http://magiccards.info/scans/en/mbp/47.jpg", position: {left: 200, top:10}}
 
 
     ## DROP FILES ##############################################
-    # $scope.onDropUrl = (url) ->
+    $scope.onDropUrl = (url) ->
+      urls.download url, (object) ->
+        room.save object
 
     # $scope.dropCardInHand = (card) ->
     #   $scope.hand.push card
@@ -42,10 +43,11 @@ define (require) ->
     ## DRAG A CARD #############################################
 
     $scope.onDragStart = (object) ->
+      console.log "DRAG START"
       object.modified = Date.now()
 
     $scope.onDragEnd = (object) ->
-      room.save object, "position"
+      room.save object, "position", "modified"
 
     $scope.onDragMove = (object, dx, dy) ->
       object.position.left += dx

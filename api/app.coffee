@@ -4,7 +4,7 @@ sockets = require './sockets'
 {send} = require './lib/web/send'
 {Rooms} = require './store/rooms'
 {downloadUrl} = require './services/remote'
-
+request = require 'request'
 Mongolian = require 'mongolian'
 
 stylus = require 'stylus'
@@ -39,6 +39,12 @@ exports.createServer = ->
 
     app.use express.static publicDir
 
+
+  # proxy fetch json data
+  app.get /\/fetch\/(.*)/, (req, res) ->
+    request.get {url: req.params[0], json: true}, (err, rs, body) ->
+      if err? then res.send 500
+      res.send body
 
 
 

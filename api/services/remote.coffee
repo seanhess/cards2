@@ -18,7 +18,6 @@ exports.downloadUrl = curry (url, cb) ->
     object.position = {left: 0, top: 0}
     cb null, object
 
-
 ## HELPERS ######
 isImageUrl = (url) -> url.match(/\.(png|jpg|jpeg|)$/)?
 

@@ -35,7 +35,6 @@ exports.listen = (app, rooms) ->
         cb channel, data
 
     socket.on "save", info (channel, object) ->
-      console.log "SAVING", object
       rooms.save object, (err) ->
         channel.emit "save", object
 
@@ -44,7 +43,6 @@ exports.listen = (app, rooms) ->
         channel.emit "remove", object
 
     socket.on "join", info (channel, user) ->
-      console.log "JOIN", user
       socket.join user.roomId
       channel.emit "join", user
 
