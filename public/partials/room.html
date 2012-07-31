@@ -15,14 +15,9 @@
     <div
       class="card"
       ng-repeat="card in hand"
-      draggable="card"
-        dragData="card"
-        dragStart="dragHand(card)"
-        dragMove="onDragMove(object, dx, dy)" 
-        dragEnd="onDragEnd(object)" 
       >
 
-      <img ng-src="{{card.imageUrl}}">
+      <img ng-src="{{card.imageUrl}}" ng-click="playCardFromHand(card)">
 
     </div>
 
@@ -39,7 +34,7 @@
   <!-- BOARD -->
   <div 
     class="object {{object._type}} card" 
-    ng-repeat="object in room.objects | orderBy:objectOrder" 
+    ng-repeat="object in room.objects | filter:isTable | orderBy:objectOrder" 
     draggable="{{object._type}}"
       dragData="object"
       dragStart="onDragStart(object)" 

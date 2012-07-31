@@ -11,11 +11,33 @@ CLIENT-SIZE MODEL WITH SERVER STORE
 [x] decks: draw a card
 [x] remove an object
 
+[ ] decks: add all cards to the board in a pile (actually add the dom elements?)
+[ ] decks: put card back in (on top)
+[ ] decks: shuffle
+
+!!! keep them in an array, because that makes the most sense
+--- you don't have to REMOVE them, because you have the filter
+
 [ ] move a card to your hand
 [ ] move a card out of your hand
 [ ] card to discard pile
 
 [ ] put a card back in a deck
+
+Decks/Hands - does the deck "contain" all its cards?
+
+
+EVERYTHING ON THE BOARD
+just in a stack, or in your hand. it's "where" it is. either on the table, or on something else
+
+$scope.table = []
+$scope.hand = []
+
+when you pick something up, it's not really on the table, it's floating
+
+but for syncing, it's better to do it the other way
+
+does $scope.table have EVERYTHING? no, scope.objects does, but not scope.table. Try using filters?
 
 
 BEST MODEL
