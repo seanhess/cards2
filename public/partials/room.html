@@ -28,6 +28,14 @@
 
   </div>
 
+
+
+  <div 
+    class="trash"
+    droppable
+    dropData="trash(data)">
+  </div>
+
   <!-- BOARD -->
   <div 
     class="object {{object._type}} card" 
@@ -50,19 +58,6 @@
     <!-- card / default -->
     <img ng-switch-default ng-src="{{object.imageUrl}}"/>
   </div>
-
-  <!-- accept JSON urls? images with headers? -->
-  <!-- figure out how to upload? -->
-  <form class="debug">
-    <div>
-      <input ng-model="imageUrl">
-      <button ng-click="newImage()">New Image</button>
-    </div>
-    <div>
-      <input ng-model="deckUrl">
-      <button ng-click="newDeck()">New Image</button>
-    </div>
-  </form>
 
   <div class="users">
     <h3>Users</h3>

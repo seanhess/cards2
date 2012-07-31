@@ -28,8 +28,9 @@ define (require) ->
       urls.download url, (object) ->
         room.save object
 
-    # $scope.dropCardInHand = (card) ->
-    #   $scope.hand.push card
+    $scope.dropCardInHand = (card) ->
+      # $scope.hand.push card
+      console.log "DROP CARD IN HAND", card
 
     # $scope.dragHand = (card) ->
     #   # $scope.hand
@@ -65,6 +66,12 @@ define (require) ->
         room.save card
         room.save deck, "objects"
         # draw a card
+
+
+
+    $scope.trash = (object) ->
+      console.log "TRASH!", object
+      room.remove object
         
   RoomsCtrl = ->
 

@@ -16,10 +16,11 @@ define (require) ->
       dropUrl = $parse atts.dropurl
       dragTypes = atts.droppable?.split /\s/
 
+      # if they didn't specify
+      if dragTypes[0] is "" then dragTypes = []
+
       element.droppable
         dragTypes: dragTypes
         onDropUrl: (url) -> dropUrl scope, {url}
-        onDropData: (data) ->
-          console.log "DROP DATA", data
-          dropData scope, {data}
+        onDropData: (data) -> dropData scope, {data}
 

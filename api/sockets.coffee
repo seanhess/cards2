@@ -39,7 +39,7 @@ exports.listen = (app, rooms) ->
         channel.emit "save", object
 
     socket.on "remove", info (channel, object) ->
-      rooms.remove object, (err, object) ->
+      rooms.remove object, (err) ->
         channel.emit "remove", object
 
     socket.on "join", info (channel, user) ->
