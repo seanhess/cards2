@@ -63,9 +63,9 @@ define (require) ->
         deck = object
         card = deck.objects.pop()
         card.modified = Date.now()
-        card.position = {left: deck.position.left + 200, top: deck.position.top}
+        card.position = {left: 0, top: 0}
         console.log "DREW CARD", card
-        room.save card
+        $scope.hand.push card
         room.save deck, "objects"
         # draw a card
 
