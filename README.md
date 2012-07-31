@@ -11,9 +11,13 @@ CLIENT-SIZE MODEL WITH SERVER STORE
 [x] decks: draw a card
 [x] remove an object
 
-[ ] decks: add all cards to the board in a pile (actually add the dom elements?)
+[x] draw from deck.
 [ ] decks: put card back in (on top)
 [ ] decks: shuffle
+
+[ ] decks: if you delete a deck, it doesn't delete all the cards (because they are in the group, but the parent doesn't exist)
+
+[ ] don't use group unless you use that instead of sub-arrays. just remove them!
 
 !!! keep them in an array, because that makes the most sense
 --- you don't have to REMOVE them, because you have the filter

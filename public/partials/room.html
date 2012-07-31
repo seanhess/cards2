@@ -45,8 +45,15 @@
     dragClick="onDragClick(object)">
 
     <!-- how should I render a deck? -->
-    <div class="deck" ng-switch-when="deck">
-      <img ng-src="{{object.backImageUrl}}"/>
+    <div 
+      ng-switch-when="deck"
+      class="deck" 
+      >
+      <img 
+        ng-src="{{object.backImageUrl}}"
+        droppable
+        dropData="addToDeck(object, data)"
+      />
       <div class="num">{{object.objects.length}}</div>
     </div>
 

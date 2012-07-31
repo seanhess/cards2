@@ -54,7 +54,6 @@ define (require) ->
         if fields.length
           object = pick object, fields.concat("_id")
 
-        console.log "SAVING", object
         emit 'save', object
 
       # socket. must call $scope.apply. Is there a better way to do this?

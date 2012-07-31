@@ -3,6 +3,10 @@ html, body, div
   padding: 0px;
   margin: 0px;
 
+
+card-width = 160px
+card-height = 228px
+
 #room
   height: 5000px;
 
@@ -20,7 +24,7 @@ html, body, div
 
     &.card
       img
-        width: 160px
+        width: card-width
         border-radius: 7px
 
     &.dragging
@@ -33,12 +37,17 @@ html, body, div
 
     &.deck
 
+
       img
         position: absolute;
         display: block;
-        background: #eee;
+        // background: #eee;
         // border: 1px solid #FFF;
-        box-shadow: 2px 2px 4px #777;  
+        box-shadow: 2px 2px 4px #777 
+        // pointer-events: none
+
+        &.dragover
+          box-shadow: 2px 2px 20px #F77
 
       div.num
         font-size: 30px
@@ -78,9 +87,8 @@ html, body, div
       background-color: #F00
 
     .card
-      // pointer-events: none
       float: left
       img
-        width: 160px
+        width: card-width
       
 

@@ -25,30 +25,30 @@ define (require) ->
 
     ## DROP FILES ##############################################
     $scope.onDropUrl = (url) ->
-      urls.download url, (objects) ->
+      urls.download url, (object) ->
         room.save object
-        objects.forEach (obj) -> room.save object
+        # objects.forEach (obj) -> room.save object
 
     $scope.isTable = (object) -> not object.group?
 
     $scope.dropCardInHand = (card) ->
-      card.group = "hand"
       $scope.hand.push card
+      room.remove card
       # TODO save the hand. 
 
     $scope.playCardFromHand = (card) ->
       # $scope.hand
-      delete card.group
       card.modified = Date.now()
+      room.save card
       $scope.hand = $scope.hand.filter (c) -> c._id isnt card._id
 
     ## DRAG A CARD #############################################
 
     $scope.onDragStart = (object) ->
-      console.log "DRAG START"
       object.modified = Date.now()
 
     $scope.onDragEnd = (object) ->
+      if object.deleted then return
       room.save object, "position", "modified"
 
     $scope.onDragMove = (object, dx, dy) ->
@@ -64,13 +64,19 @@ define (require) ->
         card = deck.objects.pop()
         card.modified = Date.now()
         card.position = {left: deck.position.left + 200, top: deck.position.top}
+        console.log "DREW CARD", card
         room.save card
         room.save deck, "objects"
         # draw a card
 
 
+    $scope.addToDeck = (deck, card) ->
+      deck.objects.push card
+      room.remove card
+      room.save deck
+
     $scope.trash = (object) ->
-      console.log "TRASH!", object
+      object.deleted = true
       room.remove object
         
   RoomsCtrl = ->
