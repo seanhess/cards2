@@ -6,7 +6,7 @@
 
 define (require) ->
   angular = require 'angular'
-  {pick} = require 'underscore'
+  {pick, clone} = require 'underscore'
   RoomCtrl = ($scope, $routeParams, Room, urls) ->
 
     # make the room!
@@ -56,8 +56,15 @@ define (require) ->
     ## DRAW CARD ###############################################
     $scope.onDragClick = (object) ->
       object.modified = Date.now()
-      # if object._type is "deck"
-      #   room.draw object
+
+      if object._type is "deck"
+        deck = object
+        card = deck.objects.pop()
+        card.modified = Date.now()
+        card.position = {left: deck.position.left + 200, top: deck.position.top}
+        room.save card
+        room.save deck, "objects"
+        # draw a card
         
   RoomsCtrl = ->
 

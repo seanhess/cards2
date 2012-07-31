@@ -6,17 +6,10 @@ CLEANUP
 
 
 CLIENT-SIZE MODEL WITH SERVER STORE
-[ ] save: updates the properties specified (underscore's pick)
-[ ] change to use a database
-
-
-
-[ ] decks: are a bunch of items at the same place. But they have 
-
-
-
-
-
+[x] save: updates the properties specified (underscore's pick)
+[x] change to use a database
+[ ] decks: are a bunch of items at the same place, with the "group" property set
+[ ] decks: draw a card
 
 BEST MODEL
 either:
