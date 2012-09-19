@@ -29,11 +29,47 @@ define (require) ->
         if not local? then throw new Error "Object #{obj._id} does not exist"
         return local
 
+
       create = (obj) ->
         local = room.objectsById[obj._id]
         if local? then throw new Error "Object #{obj._id} already exists"
         room.objectsById[obj._id] = obj
-        room.objects.push obj
+
+        if obj.stack?
+          parent = ensureParentExists obj.stack
+          parent.objects.push obj
+
+        else
+          room.objects.push obj
+
+      stack = (obj) ->
+        local = findLocal obj
+        oldParent = ensureParentExists local.stack
+        parent = ensureParentExists obj.stack
+        update ["stack", "modified"], obj
+        oldParent.objects = oldParent.objects.filter isNotId(obj._id)
+        parent.objects.push obj
+        removeFromTopLevel obj
+
+      unstack = (obj) ->
+        console.log "UNSTACKING", obj
+        local = findLocal obj
+        delete local.stack
+        update ["modified"], obj
+        oldParent = ensureParentExists local.stack
+        oldParent.objects = oldParent.objects.filter isNotId(obj._id)
+        delete local.stack
+        room.objects.push local
+
+      ensureParentExists = (id) ->
+        local = room.objectsById[id]
+        if not local?
+          local = {_id: id}
+          room.objectsById[id] = local
+          room.objects.push local
+        local.objects ?= []
+        return local
+
 
       update = curry (fields, obj) ->
         local = findLocal obj
@@ -44,6 +80,9 @@ define (require) ->
 
       remove = (object) ->
         delete room.objectsById[object._id]
+        removeFromTopLevel object
+
+      removeFromTopLevel = (object) ->
         room.objects = room.objects.filter isNotId(object._id)
 
       apply = (cb) ->
@@ -58,7 +97,10 @@ define (require) ->
         if cmd.action is "create" then create cmd.object
         else if cmd.action is "move" then move cmd.object
         else if cmd.action is "remove" then remove cmd.object
+        else if cmd.action is "stack" then stack cmd.object
+        else if cmd.action is "unstack" then unstack cmd.object
         else throw new Error "Could not find action #{cmd.action}"
+
 
 
       #getObject = (id) ->
@@ -74,6 +116,14 @@ define (require) ->
 
       sendCreate = (object) ->
         sendCommand "create", object
+
+      sendStack = (object) ->
+        sendCommand "stack", pick(object, "_id", "stack")
+        stack object
+
+      sendUnstack = (object) ->
+        sendCommand "unstack", pick(object, "_id")
+        unstack object
 
       sendCommand = (action, object) ->
         emit 'command',
@@ -108,5 +158,9 @@ define (require) ->
         sendJoin
         sendCreate
         sendRemove
+        sendStack
+        sendUnstack
+
+        ensureParentExists
       }
 

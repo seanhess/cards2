@@ -51,7 +51,7 @@ module.exports = (Room) ->
         socket.join roomId
         io.sockets.in(roomId).emit "join", data
 
-        Room.objects roomId, (err, objects) ->
+        Room.getAllObjects roomId, (err, objects) ->
           objects.forEach (obj) ->
             socket.emit 'command',
               roomId: roomId

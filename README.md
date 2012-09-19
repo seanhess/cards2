@@ -1,7 +1,41 @@
 # Cards2
 
+NEXT STEPS
+[x] Drag a card into a hand
+[ ] Draw a card into a hand
+[ ] Drag a card from hand to board
+[ ] put a card on top of a deck
+
+LATER
+[ ] User list
+[ ] Discard Piles
+[ ] Deck Maker
+[ ] What else do you need to play?
+[ ] Associate links with objects (click = open a web page in a new tab)
+[ ] Meta-data on objects (like HP, etc.. .show a counter?)
+[ ] Ability to put a number on any object
+
+
 CLEANUP
-[ ] single click no longer triggers the modifcation thing (end?) Make it so it changes it so they can be on top. 
+[x] single click no longer triggers the modifcation thing (end?) Make it so it changes it so they can be on top. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

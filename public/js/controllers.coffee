@@ -16,7 +16,7 @@ define (require) ->
     $scope.room = room
     $scope.objectOrder = 'modified'
 
-    $scope.hand = []
+    $scope.hand = room.ensureParentExists "hand"
 
     # put in some fake data
     # room.save {_id:"fake", _type: "card", imageUrl: "http://magiccards.info/scans/en/mbp/47.jpg", position: {left: 200, top:10}}
@@ -31,15 +31,12 @@ define (require) ->
     $scope.isOnTable = (object) -> not object.deleted
 
     $scope.dropCardInHand = (card) ->
-      $scope.hand.push card
-      room.remove card
-      # TODO save the hand. 
+      card.stack = "hand"
+      room.sendStack card
 
     $scope.playCardFromHand = (card) ->
       # $scope.hand
-      card.modified = Date.now()
-      room.save card
-      $scope.hand = $scope.hand.filter (c) -> c._id isnt card._id
+      room.sendUnstack card
 
     ## DRAG A CARD #############################################
 
@@ -62,9 +59,8 @@ define (require) ->
         card = deck.objects.pop()
         card.modified = Date.now()
         card.position = {left: 0, top: 0}
-        console.log "DREW CARD", card
-        $scope.hand.push card
-        room.save deck, "objects"
+        card.stack = "hand"
+        room.sendStack card
         # draw a card
 
 
