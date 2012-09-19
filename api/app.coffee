@@ -2,24 +2,22 @@ express = require 'express'
 sockets = require './sockets'
 {curry, series} = require 'fjs'
 {send} = require './lib/web/send'
-{Rooms} = require './store/rooms'
+{Room} = require './store/Room'
 {downloadUrl} = require './services/remote'
 request = require 'request'
-Mongolian = require 'mongolian'
 
 stylus = require 'stylus'
 nib = require 'nib'
 
-
 coffeepot = require 'coffeepot'
 
+config = require './config'
 
 exports.createServer = ->
   app = express.createServer()
 
-  db = new Mongolian "mongodb://localhost:27017/cards"
-  rooms = Rooms db.collection 'objects'
-  sockets.listen app, rooms
+  sockets = config.get "sockets"
+  sockets.listen app
 
   app.configure ->
     publicDir = __dirname + "/../public"
@@ -75,8 +73,7 @@ exports.createServer = ->
 
 
 if module is require.main
-  PORT = process.env.PORT || 4022
   app = exports.createServer()
-  app.listen PORT
+  app.listen config.get("PORT")
 
-  console.log "CARDS :: port #{PORT}"
+  console.log "CARDS :: port #{config.get 'PORT'}"

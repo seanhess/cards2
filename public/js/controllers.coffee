@@ -5,14 +5,13 @@
 # TODO drag move image
 
 define (require) ->
-  angular = require 'angular'
   {pick, clone} = require 'underscore'
   RoomCtrl = ($scope, $routeParams, Room, urls) ->
 
     # make the room!
     roomId = $routeParams.id
     room = Room $scope, roomId
-    room.join {name: "sean"}
+    room.sendJoin {name: "sean"}
 
     $scope.room = room
     $scope.objectOrder = 'modified'
@@ -26,10 +25,10 @@ define (require) ->
     ## DROP FILES ##############################################
     $scope.onDropUrl = (url) ->
       urls.download url, (object) ->
-        room.save object
+        room.sendCreate object
         # objects.forEach (obj) -> room.save object
 
-    $scope.isTable = (object) -> not object.group?
+    $scope.isOnTable = (object) -> not object.deleted
 
     $scope.dropCardInHand = (card) ->
       $scope.hand.push card
@@ -49,7 +48,7 @@ define (require) ->
 
     $scope.onDragEnd = (object) ->
       if object.deleted then return
-      room.save object, "position", "modified"
+      room.sendMove object
 
     $scope.onDragMove = (object, dx, dy) ->
       object.position.left += dx

@@ -5,6 +5,67 @@ CLEANUP
 
 
 
+EVEN BETTER MODEL
+the best model would be the most like a single environment: an array with the objects on the board, you can MOVE them to another array, but they stay in memory, so you never duplicate them
+  -- that's like: relational data. The cards can be MOVED to another array, but not duped
+  :: ensure they can't be in more than one: put the property on the card
+
+card: id, group, order
+
+what does it mean to be IN another thing? 
+  - data perspective: need to be able to access the cards in a particular group / get the first one (drawing a card)
+  = a function: objectsInGroup(group), or optimize by ALSO putting them in an array (but, the same object) (ah.... that's what I need to do) (naw, it's more complicated, just do the function)
+
+  - visually: hand cards need to disappear for everyone else
+  = hide them via the filter
+
+  - visually: deck cards need to appear on top of each other
+  = hide them via the filter
+
+
+relationships?
+  - array of ids
+  = makes ordering simple. makes updates more complicated
+  = makes the deck more complicated: do we maintain a map of id -> object? (I already have one of those anyway!)
+    :: first card = easy, grab id, look up in map, remove from array, save deck
+    :: # of cards = easiest - check order
+    :: shuffle = easiest - reorder and save the deck
+
+  - or an array of the actual objects
+    :: first card = easyish?, get 0, remove from array. save deck? (just save it with the full objects? just up and save?) (not actually easier!)
+    :: # of cards = easiest
+    :: shuffle = easyish - reorder and save the deck
+
+    ?? If I do it this way, there will be a card object, and a duplicate one in the deck (both are stored), but I have to make sure that when they are saved, the deck one refers to the real one. (If it exists?). It doesn't matter, they will be in sync. The only danger is if the one outside doesn't have its _group_ set property. Then it might show up, even though it is inside the deck. Try it!
+
+  So in the end, they are similar. But definitly use one of these!
+
+  DECK TIME
+    - i think it would be cooler to have each side store them the way that is best
+    - that won't make it easier though, because I have to have a special save, no?
+    -- unless I have a simple thing that looks for sub objects, or children
+    -- hand? do I have the "hand" object?
+
+  CLIENT SIDE
+
+  - from other data sources
+    :: you don't want to just have IDS. You want the whole object.
+    :: which means that a "deck object" will probably be more like #2
+
+
+deletion
+  - add a deleted property. have a cleanup method later
+
+moving them around
+  - just change the group and save
+
+reordering via shuffle
+  - the deck has an array of ids (no, an array of objects!) (well, not on the server, right?)
+
+your hand
+  - is an array of ids
+
+
 CLIENT-SIZE MODEL WITH SERVER STORE
 [x] save: updates the properties specified (underscore's pick)
 [x] change to use a database

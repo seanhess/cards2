@@ -23,52 +23,89 @@ define (require) ->
         data.roomId = roomId
         socket.emit event, data
 
-      save = (remote) ->
-        local = room.objectsById[remote._id]
-        if not local?
-          local = room.objectsById[remote._id] = remote
-          room.objects.push remote
-        else
-          extend local, remote
 
-      remove = (object) ->
-        delete room.objectsById[object._id]
-        room.objects = room.objects.filter isNotId(object._id)
+      findLocal = (obj) ->
+        local = room.objectsById[obj._id] 
+        if not local? then throw new Error "Object #{obj._id} does not exist"
+        return local
+
+      create = (obj) ->
+        local = room.objectsById[obj._id]
+        if local? then throw new Error "Object #{obj._id} already exists"
+        room.objectsById[obj._id] = obj
+        room.objects.push obj
+
+      update = curry (fields, obj) ->
+        local = findLocal obj
+        updates = pick obj, fields...
+        console.log 'UPDATING', updates
+        extend local, updates
+
+      move = update ["position", "modified"]
+
+      #remove = (object) ->
+        #delete room.objectsById[object._id]
+        #room.objects = room.objects.filter isNotId(object._id)
 
       apply = (cb) ->
         (args...) ->
           $scope.$apply ->
             cb args...
 
-      join = (user) ->
+      onJoin = (user) ->
         room.users.push user
 
-      getObject = (id) ->
-        room.objects.filter(isId(id))[0]
+      onCommand = (cmd) ->
+        if cmd.action is "create" then create cmd.object
+        else if cmd.action is "move" then move cmd.object
+        else throw new Error "Could not find action #{cmd.action}"
 
-      sendRemove = (object) ->
-        emit 'remove', pick(object, "_id")
+
+      #getObject = (id) ->
+        #room.objects.filter(isId(id))[0]
+
+      #sendRemove = (object) ->
+        #object.deleted = true
+        #emit 'save', pick(object, "_id", "deleted")
+
+      sendMove = (object) ->
+        sendCommand "move", pick(object, "_id", "position")
+
+      sendCreate = (object) ->
+        sendCommand "create", object
+
+      sendCommand = (action, object) ->
+        console.log "SENDING", action, object
+        emit 'command',
+          action: action
+          roomId: roomId
+          object: object
+
       sendJoin = (user) ->
         emit 'join', user
-      sendSave = (object, fields...) ->
-        if fields.length
-          object = pick object, fields.concat("_id")
 
-        emit 'save', object
+      #sendSave = (object, fields...) ->
+        #if fields.length
+          #object = pick object, fields.concat("_id")
+
+        #emit 'save', object
 
       # socket. must call $scope.apply. Is there a better way to do this?
-      socket.on 'save', apply(save)
-      socket.on 'remove', apply(remove)
-      socket.on 'join', apply(join)
+      socket.on 'join', apply(onJoin)
+      socket.on 'command', apply(onCommand)
       socket.on 'error', (err) -> dump "socket.io ERROR #{err}"
 
-      room =
+      room = {
+
+        # BINDABLE attributes
         roomId: roomId
         users: []
         objects: []
         objectsById: {}
-        save: sendSave
-        remove: sendRemove
-        join: sendJoin
-        # lets you specify a url, and we create an object out of it
+
+        # METHODS to manipulate stuff
+        sendMove
+        sendJoin
+        sendCreate
+      }
 
