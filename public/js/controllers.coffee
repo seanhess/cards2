@@ -47,7 +47,6 @@ define (require) ->
       object.modified = Date.now()
 
     $scope.onDragEnd = (object) ->
-      if object.deleted then return
       room.sendMove object
 
     $scope.onDragMove = (object, dx, dy) ->
@@ -75,8 +74,7 @@ define (require) ->
       room.save deck
 
     $scope.trash = (object) ->
-      object.deleted = true
-      room.remove object
+      room.sendRemove object
         
   RoomsCtrl = ->
 

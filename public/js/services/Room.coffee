@@ -38,14 +38,13 @@ define (require) ->
       update = curry (fields, obj) ->
         local = findLocal obj
         updates = pick obj, fields...
-        console.log 'UPDATING', updates
         extend local, updates
 
       move = update ["position", "modified"]
 
-      #remove = (object) ->
-        #delete room.objectsById[object._id]
-        #room.objects = room.objects.filter isNotId(object._id)
+      remove = (object) ->
+        delete room.objectsById[object._id]
+        room.objects = room.objects.filter isNotId(object._id)
 
       apply = (cb) ->
         (args...) ->
@@ -58,24 +57,25 @@ define (require) ->
       onCommand = (cmd) ->
         if cmd.action is "create" then create cmd.object
         else if cmd.action is "move" then move cmd.object
+        else if cmd.action is "remove" then remove cmd.object
         else throw new Error "Could not find action #{cmd.action}"
 
 
       #getObject = (id) ->
         #room.objects.filter(isId(id))[0]
 
-      #sendRemove = (object) ->
-        #object.deleted = true
-        #emit 'save', pick(object, "_id", "deleted")
+      sendRemove = (object) ->
+        object.deleted = true
+        sendCommand "remove", pick(object, "_id")
 
       sendMove = (object) ->
+        return if object.deleted
         sendCommand "move", pick(object, "_id", "position")
 
       sendCreate = (object) ->
         sendCommand "create", object
 
       sendCommand = (action, object) ->
-        console.log "SENDING", action, object
         emit 'command',
           action: action
           roomId: roomId
@@ -107,5 +107,6 @@ define (require) ->
         sendMove
         sendJoin
         sendCreate
+        sendRemove
       }
 
