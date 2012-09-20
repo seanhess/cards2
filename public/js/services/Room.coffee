@@ -44,17 +44,15 @@ define (require) ->
 
       stack = (obj) ->
         local = findLocal obj
+        update ["stack", "modified"], obj
         oldParent = ensureParentExists local.stack
         parent = ensureParentExists obj.stack
-        update ["stack", "modified"], obj
         oldParent.objects = oldParent.objects.filter isNotId(obj._id)
-        parent.objects.push obj
-        removeFromTopLevel obj
+        parent.objects.push local
+        removeFromTopLevel local
 
       unstack = (obj) ->
-        console.log "UNSTACKING", obj
         local = findLocal obj
-        delete local.stack
         update ["modified"], obj
         oldParent = ensureParentExists local.stack
         oldParent.objects = oldParent.objects.filter isNotId(obj._id)
@@ -62,6 +60,7 @@ define (require) ->
         room.objects.push local
 
       ensureParentExists = (id) ->
+        if not id? then throw new Error "Undefined id in ensure parent"
         local = room.objectsById[id]
         if not local?
           local = {_id: id}
@@ -94,6 +93,7 @@ define (require) ->
         room.users.push user
 
       onCommand = (cmd) ->
+        #console.log "COMMAND", cmd.action, cmd
         if cmd.action is "create" then create cmd.object
         else if cmd.action is "move" then move cmd.object
         else if cmd.action is "remove" then remove cmd.object
@@ -119,13 +119,12 @@ define (require) ->
 
       sendStack = (object) ->
         sendCommand "stack", pick(object, "_id", "stack")
-        stack object
 
       sendUnstack = (object) ->
         sendCommand "unstack", pick(object, "_id")
-        unstack object
 
       sendCommand = (action, object) ->
+        #console.log "SEND", action, object
         emit 'command',
           action: action
           roomId: roomId

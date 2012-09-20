@@ -77,7 +77,9 @@ module.exports = (db) ->
     go: (cb) -> update ["position"], @object, cb
 
   class StackCommand extends Command
-    go: (cb) -> update ["stack"], @object, cb
+    go: (cb) ->
+      console.log "GO STACK", @object
+      update ["stack"], @object, cb
 
   class UnstackCommand extends Command
     go: (cb) -> 

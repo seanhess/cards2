@@ -34,6 +34,8 @@ module.exports = (Room) ->
 
         command.run (err, command) ->
           return dump err if err?
+
+          # SENDS to everyone in the room, including the sender
           io.sockets.in(roomId).emit "command", command
 
 
